@@ -1,0 +1,703 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Admin Reports</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 6px 0;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .top-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #374151;
+        }
+
+        .secondary:hover {
+            background: #1f2937;
+        }
+
+        .success {
+            background: #15803d;
+        }
+
+        .success:hover {
+            background: #166534;
+        }
+
+        .section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .section-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .section-header p {
+            margin: 6px 0 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .status-active {
+            display: inline-block;
+            padding: 4px 9px;
+            border-radius: 20px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            display: inline-block;
+            padding: 4px 9px;
+            border-radius: 20px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .transaction-received {
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .transaction-dispatched {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .empty {
+            padding: 25px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Reports</h1>
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+</div>
+
+<div class="container">
+
+    <div class="top-actions">
+
+        <a
+            class="button secondary"
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            ← Admin Dashboard
+        </a>
+
+        <a
+            class="button success"
+            href="{{ url_for('admin.export_reports') }}"
+        >
+            Download Excel Report
+        </a>
+
+    </div>
+
+
+    <!-- MEDICINE STOCK -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Medicine Stock Report</h2>
+            <p>Current medicine inventory and status</p>
+        </div>
+
+        <div class="table-container">
+
+            {% if medicines %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Medicine</th>
+                        <th>Category</th>
+                        <th>Unit</th>
+                        <th>Current Stock</th>
+                        <th>Default Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for medicine in medicines %}
+
+                    <tr>
+
+                        <td>
+                            {{ medicine.id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ medicine.name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ medicine.category or "-" }}
+                        </td>
+
+                        <td>
+                            {{ medicine.unit or "-" }}
+                        </td>
+
+                        <td>
+                            {{ medicine.current_stock if medicine.current_stock is defined else 0 }}
+                        </td>
+
+                        <td>
+                            Rs {{ "%.2f"|format(medicine.price or 0) }}
+                        </td>
+
+                        <td>
+
+                            {% if medicine.is_active %}
+
+                                <span class="status-active">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-inactive">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No medicines found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- SALES -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Sales Report</h2>
+            <p>All medicine sales recorded by field persons</p>
+        </div>
+
+        <div class="table-container">
+
+            {% if sales %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Sale ID</th>
+                        <th>Shop</th>
+                        <th>Field Person</th>
+                        <th>Total Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for sale in sales %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ sale.id }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ sale.shop.name if sale.shop else "-" }}
+                        </td>
+
+                        <td>
+                            {% if sale.field_person and sale.field_person.user %}
+                                {{ sale.field_person.user.full_name }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <strong>
+                                Rs {{ "%.2f"|format(sale.total_amount or 0) }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {% if sale.created_at %}
+                                {{ sale.created_at.strftime("%d-%b-%Y %I:%M %p") }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No sales found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- SHOPS -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Shop Report</h2>
+            <p>Shops registered by field persons</p>
+        </div>
+
+        <div class="table-container">
+
+            {% if shops %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Shop ID</th>
+                        <th>Shop Name</th>
+                        <th>Owner Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Field Person</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for shop in shops %}
+
+                    <tr>
+
+                        <td>
+                            {{ shop.id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ shop.name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ shop.owner_name or "-" }}
+                        </td>
+
+                        <td>
+                            {{ shop.phone or "-" }}
+                        </td>
+
+                        <td>
+                            {{ shop.address or "-" }}
+                        </td>
+
+                        <td>
+                            {% if shop.field_person and shop.field_person.user %}
+                                {{ shop.field_person.user.full_name }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No shops found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- FIELD PERSONS -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Field Person Report</h2>
+            <p>Registered field persons and account status</p>
+        </div>
+
+        <div class="table-container">
+
+            {% if field_persons %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for person in field_persons %}
+
+                    <tr>
+
+                        <td>
+                            {{ person.id }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ person.user.full_name if person.user else "-" }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ person.user.username if person.user else "-" }}
+                        </td>
+
+                        <td>
+                            {{ person.phone or "-" }}
+                        </td>
+
+                        <td>
+                            {{ person.user.role if person.user else "field" }}
+                        </td>
+
+                        <td>
+
+                            {% if person.user and person.user.is_active %}
+
+                                <span class="status-active">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status-inactive">
+                                    Inactive
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No field persons found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- STOCK TRANSACTIONS -->
+
+    <div class="section">
+
+        <div class="section-header">
+            <h2>Stock Transactions Report</h2>
+            <p>Medicine receiving, dispatch and inventory activity</p>
+        </div>
+
+        <div class="table-container">
+
+            {% if transactions %}
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Medicine</th>
+                        <th>Transaction Type</th>
+                        <th>Quantity</th>
+                        <th>Performed By</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for transaction in transactions %}
+
+                    <tr>
+
+                        <td>
+                            {{ transaction.id }}
+                        </td>
+
+                        <td>
+                            {{ transaction.medicine.name if transaction.medicine else "-" }}
+                        </td>
+
+                        <td>
+
+                            {% if transaction.transaction_type == "RECEIVED" %}
+
+                                <span class="transaction-received">
+                                    RECEIVED
+                                </span>
+
+                            {% elif transaction.transaction_type == "DISPATCHED" %}
+
+                                <span class="transaction-dispatched">
+                                    DISPATCHED
+                                </span>
+
+                            {% else %}
+
+                                {{ transaction.transaction_type }}
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ transaction.quantity }}
+                        </td>
+
+                        <td>
+                            {{ transaction.user.full_name if transaction.user else "-" }}
+                        </td>
+
+                        <td>
+
+                            {% if transaction.created_at %}
+                                {{ transaction.created_at.strftime("%d-%b-%Y %I:%M %p") }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <div class="empty">
+                No stock transactions found.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+</body>
+
+</html>

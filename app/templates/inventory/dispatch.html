@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Dispatch Stock</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .flash {
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            background: white;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 17px;
+            border: none;
+            border-radius: 6px;
+            background: #d97706;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            background: #b45309;
+        }
+
+        .secondary {
+            background: #374151;
+        }
+
+        .secondary:hover {
+            background: #1f2937;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Dispatch Stock</h1>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="card">
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- DISPATCH FORM -->
+
+        <form method="POST">
+
+
+            <!-- MEDICINE -->
+
+            <div class="form-group">
+
+                <label for="medicine_id">
+                    Select Medicine
+                </label>
+
+                <select
+                    id="medicine_id"
+                    name="medicine_id"
+                    required
+                >
+
+                    <option value="">
+                        -- Select Medicine --
+                    </option>
+
+                    {% for medicine in medicines %}
+
+                        <option value="{{ medicine.id }}">
+
+                            {{ medicine.name }}
+                            -
+                            {{ medicine.unit or "-" }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- FIELD PERSON -->
+
+            <div class="form-group">
+
+                <label for="field_person_id">
+                    Select Field Person
+                </label>
+
+                <select
+                    id="field_person_id"
+                    name="field_person_id"
+                    required
+                >
+
+                    <option value="">
+                        -- Select Field Person --
+                    </option>
+
+                    {% for person in field_persons %}
+
+                        <option value="{{ person.id }}">
+
+                            {{ person.user.full_name
+                               if person.user
+                               else "Unknown Field Person" }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label for="quantity">
+                    Quantity
+                </label>
+
+                <input
+                    id="quantity"
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    Dispatch Stock
+                </button>
+
+                <a
+                    href="{{ url_for('inventory.dashboard') }}"
+                    class="button secondary"
+                >
+                    Back to Inventory
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

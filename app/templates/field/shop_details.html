@@ -1,0 +1,1090 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Shop Details | NGO Medicine Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 24px 30px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .flash {
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #166534;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .shop-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .info-item {
+            padding: 14px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+        }
+
+        .info-label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 15px;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        .balance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .balance-item {
+            padding: 18px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+        }
+
+        .balance-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .balance-value {
+            font-size: 21px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .balance-positive {
+            color: #dc2626;
+        }
+
+        .balance-zero {
+            color: #15803d;
+        }
+
+        .sale-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sale-description {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .button-primary {
+            background: #2563eb;
+        }
+
+        .button-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .button-success {
+            background: #15803d;
+        }
+
+        .button-success:hover {
+            background: #166534;
+        }
+
+        .payment-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        .payment-note {
+            margin-top: 10px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+            padding: 13px 14px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .sale-id {
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .medicine-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .rate {
+            white-space: nowrap;
+        }
+
+        .total {
+            font-weight: 700;
+            color: #15803d;
+            white-space: nowrap;
+        }
+
+        .payment-amount {
+            font-weight: 700;
+            color: #15803d;
+            white-space: nowrap;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px 20px;
+            color: #6b7280;
+        }
+
+        .empty strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 18px;
+        }
+
+        .empty p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .navigation a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .navigation a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #1f2937;
+            color: #d1d5db;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .footer p {
+            margin: 0 0 8px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .shop-info {
+                grid-template-columns: 1fr;
+            }
+
+            .balance-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sale-action {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .sale-action .button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .payment-form {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-form .button {
+                width: 100%;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header class="header">
+
+    <div class="header-content">
+
+        <h1>
+            Shop Details
+        </h1>
+
+        <p>
+            Field Person:
+
+            <strong>
+                {{ field_person.user.full_name
+                   if field_person and field_person.user
+                   else "-" }}
+            </strong>
+        </p>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- FLASH MESSAGES -->
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <!-- SHOP INFORMATION -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                {{ shop.name }}
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="shop-info">
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Shop ID
+                    </span>
+
+                    <span class="info-value">
+                        {{ shop.id }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Shop Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ shop.name }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Owner Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ shop.owner_name or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Phone
+                    </span>
+
+                    <span class="info-value">
+                        {{ shop.phone or "-" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-item"
+                     style="grid-column: 1 / -1;">
+
+                    <span class="info-label">
+                        Address
+                    </span>
+
+                    <span class="info-value">
+                        {{ shop.address or "-" }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACCOUNT BALANCE -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Account Balance
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="balance-grid">
+
+                <div class="balance-item">
+
+                    <span class="balance-label">
+                        Opening Balance
+                    </span>
+
+                    <span class="balance-value">
+                        Rs {{ "%.2f"|format(
+                            opening_balance or 0
+                        ) }}
+                    </span>
+
+                </div>
+
+
+                <div class="balance-item">
+
+                    <span class="balance-label">
+                        Total Sales
+                    </span>
+
+                    <span class="balance-value">
+                        Rs {{ "%.2f"|format(
+                            total_sales or 0
+                        ) }}
+                    </span>
+
+                </div>
+
+
+                <div class="balance-item">
+
+                    <span class="balance-label">
+                        Total Payments
+                    </span>
+
+                    <span class="balance-value">
+                        Rs {{ "%.2f"|format(
+                            total_payments or 0
+                        ) }}
+                    </span>
+
+                </div>
+
+
+                <div class="balance-item"
+                     style="grid-column: 1 / -1;">
+
+                    <span class="balance-label">
+                        Outstanding Balance
+                    </span>
+
+                    <span
+                        class="balance-value
+                        {% if outstanding_balance > 0 %}
+                            balance-positive
+                        {% else %}
+                            balance-zero
+                        {% endif %}"
+                    >
+
+                        Rs {{ "%.2f"|format(
+                            outstanding_balance or 0
+                        ) }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NEW SALE -->
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="sale-action">
+
+                <div>
+
+                    <strong>
+                        Sell Medicine
+                    </strong>
+
+                    <div class="sale-description">
+                        Create a new medicine sale for this shop.
+                    </div>
+
+                </div>
+
+                <a
+                    href="{{ url_for(
+                        'field.new_sale',
+                        shop_id=shop.id
+                    ) }}"
+                    class="button button-success"
+                >
+                    + New Sale
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECORD PAYMENT -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Record Payment
+            </h2>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if outstanding_balance > 0 %}
+
+                <form
+                    method="POST"
+                    action="{{ url_for(
+                        'field.add_payment',
+                        shop_id=shop.id
+                    ) }}"
+                >
+
+                    <div class="payment-form">
+
+                        <div class="form-group">
+
+                            <label for="amount">
+                                Payment Amount
+                            </label>
+
+                            <input
+                                type="number"
+                                id="amount"
+                                name="amount"
+                                min="0.01"
+                                max="{{ outstanding_balance }}"
+                                step="0.01"
+                                placeholder="Enter amount"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="notes">
+                                Notes
+                            </label>
+
+                            <input
+                                type="text"
+                                id="notes"
+                                name="notes"
+                                maxlength="255"
+                                placeholder="Optional note"
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="button button-primary"
+                        >
+                            Record Payment
+                        </button>
+
+                    </div>
+
+
+                    <div class="payment-note">
+
+                        Maximum payment:
+
+                        <strong>
+                            Rs {{ "%.2f"|format(
+                                outstanding_balance
+                            ) }}
+                        </strong>
+
+                    </div>
+
+                </form>
+
+            {% else %}
+
+                <div class="empty">
+
+                    <strong>
+                        No Outstanding Balance
+                    </strong>
+
+                    <p>
+                        This shop currently has no outstanding payment.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- SALES HISTORY -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Sales History
+            </h2>
+
+        </div>
+
+
+        {% if sales %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Sale ID
+                            </th>
+
+                            <th>
+                                Medicine
+                            </th>
+
+                            <th>
+                                Quantity
+                            </th>
+
+                            <th>
+                                Rate
+                            </th>
+
+                            <th>
+                                Total
+                            </th>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for sale in sales %}
+
+                        {% set items = sale_items.get(
+                            sale.id,
+                            []
+                        ) %}
+
+
+                        {% for item in items %}
+
+                            <tr>
+
+                                <td class="sale-id">
+                                    {{ sale.id }}
+                                </td>
+
+
+                                <td class="medicine-name">
+
+                                    {% if item.medicine %}
+
+                                        {{ item.medicine.name }}
+
+                                    {% else %}
+
+                                        Unknown Medicine
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+                                    {{ item.quantity }}
+                                </td>
+
+
+                                <td class="rate">
+
+                                    Rs {{ "%.2f"|format(
+                                        item.rate or 0
+                                    ) }}
+
+                                </td>
+
+
+                                <td class="total">
+
+                                    Rs {{ "%.2f"|format(
+                                        item.total or 0
+                                    ) }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if sale.created_at %}
+
+                                        {{ pakistan_time(
+                                            sale.created_at
+                                        ).strftime(
+                                            "%d-%m-%Y %I:%M %p"
+                                        ) }}
+
+                                    {% else %}
+
+                                        N/A
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <strong>
+                    No Sales Found
+                </strong>
+
+                <p>
+                    No medicine has been sold to this shop yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- PAYMENT HISTORY -->
+
+    <div class="card">
+
+        <div class="card-header">
+
+            <h2>
+                Payment History
+            </h2>
+
+        </div>
+
+
+        {% if payments %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Payment ID
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Notes
+                            </th>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for payment in payments %}
+
+                        <tr>
+
+                            <td class="sale-id">
+                                {{ payment.id }}
+                            </td>
+
+
+                            <td class="payment-amount">
+
+                                Rs {{ "%.2f"|format(
+                                    payment.amount or 0
+                                ) }}
+
+                            </td>
+
+
+                            <td>
+                                {{ payment.notes or "-" }}
+                            </td>
+
+
+                            <td>
+
+                                {% if payment.payment_date %}
+
+                                    {{ pakistan_time(
+                                        payment.payment_date
+                                    ).strftime(
+                                        "%d-%m-%Y %I:%M %p"
+                                    ) }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <strong>
+                    No Payments Found
+                </strong>
+
+                <p>
+                    No payment has been recorded for this shop yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="navigation">
+
+        <a href="{{ url_for('field.my_shops') }}">
+            ← Back to My Shops
+        </a>
+
+        <a href="{{ url_for('field.my_stock') }}">
+            My Stock
+        </a>
+
+        <a href="{{ url_for('field.sales_history') }}">
+            Sales History
+        </a>
+
+        <a href="{{ url_for('field.dashboard') }}">
+            Dashboard
+        </a>
+
+    </div>
+
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</footer>
+
+
+</body>
+
+</html>

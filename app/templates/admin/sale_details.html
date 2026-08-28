@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sale Details</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info-item strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+        }
+
+        .grand-total {
+            text-align: right;
+            font-size: 22px;
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #374151;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .button:hover {
+            background: #1f2937;
+        }
+
+        .primary {
+            background: #2563eb;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .danger {
+            background: #dc2626;
+        }
+
+        .danger:hover {
+            background: #b91c1c;
+        }
+
+        .empty {
+            padding: 20px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 18px;
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 650px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>Sale Details</h1>
+
+</div>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="info-grid">
+
+            <div class="info-item">
+
+                <strong>Sale ID</strong>
+
+                {{ sale.id }}
+
+            </div>
+
+            <div class="info-item">
+
+                <strong>Shop</strong>
+
+                {% if sale.shop %}
+                    {{ sale.shop.name }}
+                {% else %}
+                    -
+                {% endif %}
+
+            </div>
+
+            <div class="info-item">
+
+                <strong>Field Person</strong>
+
+                {% if sale.field_person and sale.field_person.user %}
+                    {{ sale.field_person.user.full_name }}
+                {% else %}
+                    -
+                {% endif %}
+
+            </div>
+
+            <div class="info-item">
+
+                <strong>Date</strong>
+
+                {% if sale.created_at %}
+                    {{ sale.created_at.strftime("%d-%b-%Y %I:%M %p") }}
+                {% else %}
+                    N/A
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Sale Items</h2>
+
+        {% if sale_items %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Medicine</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Total</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in sale_items %}
+
+                <tr>
+
+                    <td>
+
+                        {% if item.medicine %}
+                            {{ item.medicine.name }}
+                        {% else %}
+                            Medicine #{{ item.medicine_id }}
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {{ item.quantity }}
+
+                        {% if item.medicine and item.medicine.unit %}
+                            {{ item.medicine.unit }}
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        Rs {{ "%.2f"|format(item.rate or 0) }}
+                    </td>
+
+                    <td>
+                        Rs {{ "%.2f"|format(item.total or 0) }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+            <div class="empty">
+                No items found for this sale.
+            </div>
+
+        {% endif %}
+
+
+        <div class="grand-total">
+
+            <strong>
+                Grand Total:
+                Rs {{ "%.2f"|format(sale.total_amount or 0) }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <a
+            class="button primary"
+            href="{{ url_for('admin.sales') }}"
+        >
+            ← Back to All Sales
+        </a>
+
+        <a
+            class="button"
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            Admin Dashboard
+        </a>
+
+        <a
+            class="button danger"
+            href="{{ url_for('auth.logout') }}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

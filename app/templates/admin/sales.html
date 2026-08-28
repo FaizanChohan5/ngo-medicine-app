@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>All Sales</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 6px 0;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .actions {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #374151;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background: #1f2937;
+        }
+
+        .primary {
+            background: #2563eb;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 10px 12px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .view-button {
+            display: inline-block;
+            padding: 7px 11px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .view-button:hover {
+            background: #1d4ed8;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>All Sales</h1>
+
+    <p>
+        System Administrator
+    </p>
+
+</div>
+
+<div class="container">
+
+    <div class="actions">
+
+        <a
+            class="button primary"
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            ← Admin Dashboard
+        </a>
+
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            <div class="messages">
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        <strong>{{ message }}</strong>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <div class="table-container">
+
+        {% if sales %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Sale ID</th>
+                    <th>Shop</th>
+                    <th>Field Person</th>
+                    <th>Total Amount</th>
+                    <th>Date</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for sale in sales %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ sale.id }}
+                        </strong>
+                    </td>
+
+                    <td>
+
+                        {% if sale.shop %}
+                            {{ sale.shop.name }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if sale.field_person and sale.field_person.user %}
+                            {{ sale.field_person.user.full_name }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        Rs {{ "%.2f"|format(sale.total_amount or 0) }}
+                    </td>
+
+                    <td>
+
+                        {% if sale.created_at %}
+                            {{ sale.created_at.strftime("%d-%b-%Y %I:%M %p") }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            class="view-button"
+                            href="{{ url_for('admin.sale_details', sale_id=sale.id) }}"
+                        >
+                            View Details
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+            <div class="empty">
+                No sales recorded yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+</body>
+
+</html>

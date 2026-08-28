@@ -1,0 +1,382 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Shop Details</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        .detail {
+            margin: 10px 0;
+        }
+
+        .detail strong {
+            display: inline-block;
+            min-width: 120px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .success {
+            background: #15803d;
+        }
+
+        .success:hover {
+            background: #166534;
+        }
+
+        .secondary {
+            background: #374151;
+        }
+
+        .secondary:hover {
+            background: #1f2937;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .empty {
+            padding: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            table {
+                min-width: 650px;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+
+    <h1>Shop Details</h1>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- SHOP INFORMATION -->
+
+    <div class="card">
+
+        <h2>
+            {{ shop.name }}
+        </h2>
+
+        <p class="detail">
+            <strong>Shop ID:</strong>
+            {{ shop.id }}
+        </p>
+
+        <p class="detail">
+            <strong>Owner Name:</strong>
+            {{ shop.owner_name or "-" }}
+        </p>
+
+        <p class="detail">
+            <strong>Phone:</strong>
+            {{ shop.phone or "-" }}
+        </p>
+
+        <p class="detail">
+            <strong>Address:</strong>
+            {{ shop.address or "-" }}
+        </p>
+
+        <p class="detail">
+
+            <strong>Field Person:</strong>
+
+            {% if shop.field_person
+                  and shop.field_person.user %}
+
+                {{ shop.field_person.user.full_name }}
+
+            {% else %}
+
+                -
+
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+    <!-- SHOP OPERATIONS -->
+
+    <div class="card">
+
+        <h2>Shop Operations</h2>
+
+        <a
+            class="button success"
+            href="{{ url_for(
+                'field.new_sale',
+                shop_id=shop.id
+            ) }}"
+        >
+            + New Sale
+        </a>
+
+    </div>
+
+
+    <!-- SALES HISTORY -->
+
+    <div class="card">
+
+        <h2>Sales History</h2>
+
+        {% if sales %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Sale ID</th>
+                        <th>Total Amount</th>
+                        <th>Date</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for sale in sales %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                {{ sale.id }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            Rs {{ "%.2f"|format(
+                                sale.total_amount or 0
+                            ) }}
+                        </td>
+
+                        <td>
+
+                            {% if sale.created_at %}
+
+                                {{ sale.created_at }}
+
+                            {% else %}
+
+                                N/A
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                class="button secondary"
+                                href="{{ url_for(
+                                    'admin.sale_details',
+                                    sale_id=sale.id
+                                ) }}"
+                            >
+                                View Sale
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="empty">
+                No sales recorded for this shop.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="card">
+
+        <a
+            class="button secondary"
+            href="{{ url_for('admin.shops') }}"
+        >
+            ← Back to All Shops
+        </a>
+
+        <a
+            class="button secondary"
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            Admin Dashboard
+        </a>
+
+        <a
+            class="button secondary"
+            href="{{ url_for('auth.logout') }}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

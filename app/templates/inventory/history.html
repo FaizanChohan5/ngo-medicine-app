@@ -1,0 +1,305 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Stock History</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .received {
+            color: #166534;
+            font-weight: bold;
+        }
+
+        .dispatched {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #374151;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .button:hover {
+            background: #1f2937;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Stock Transaction History</h1>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Medicine</th>
+                    <th>Transaction Type</th>
+                    <th>Quantity</th>
+                    <th>User</th>
+                    <th>Date & Time</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for transaction in transactions %}
+
+                <tr>
+
+                    <td>
+                        {{ transaction.id }}
+                    </td>
+
+
+                    <td>
+
+                        {% if transaction.medicine %}
+
+                            {{ transaction.medicine.name }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if transaction.transaction_type == "RECEIVED" %}
+
+                            <span class="received">
+                                RECEIVED
+                            </span>
+
+                        {% elif transaction.transaction_type == "DISPATCHED" %}
+
+                            <span class="dispatched">
+                                DISPATCHED
+                            </span>
+
+                        {% else %}
+
+                            {{ transaction.transaction_type }}
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ transaction.quantity }}
+                    </td>
+
+
+                    <td>
+
+                        {% if transaction.user %}
+
+                            {{ transaction.user.full_name }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if transaction.created_at %}
+
+                            {{ transaction.created_at.strftime(
+                                "%d-%m-%Y %H:%M"
+                            ) }}
+
+                        {% else %}
+
+                            N/A
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty"
+                    >
+                        No transactions found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="actions">
+
+        <a
+            class="button"
+            href="{{ url_for('inventory.dashboard') }}"
+        >
+            ← Back to Inventory
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

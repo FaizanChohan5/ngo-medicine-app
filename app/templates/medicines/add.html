@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Add Medicine</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .flash {
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background: #dbeafe;
+            color: #1e3a8a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 17px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #374151;
+        }
+
+        .secondary:hover {
+            background: #1f2937;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Add Medicine</h1>
+
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+
+
+        <!-- FLASH MESSAGES -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="flash">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- ADD MEDICINE FORM -->
+
+        <form method="POST">
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    Medicine Name
+                </label>
+
+                <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <input
+                    id="category"
+                    type="text"
+                    name="category"
+                    placeholder="Tablet / Syrup / Injection"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="unit">
+                    Unit
+                </label>
+
+                <input
+                    id="unit"
+                    type="text"
+                    name="unit"
+                    placeholder="Box / Pack / Bottle"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="price">
+                    Default Rate
+                </label>
+
+                <input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    name="price"
+                    value="0"
+                >
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="button"
+                >
+                    Add Medicine
+                </button>
+
+                <a
+                    href="{{ url_for('medicine.list_medicines') }}"
+                    class="button secondary"
+                >
+                    Back to Medicines
+                </a>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

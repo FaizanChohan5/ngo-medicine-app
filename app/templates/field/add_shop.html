@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Add Shop</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 24px 30px;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 22px;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .button.primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .button.primary:hover {
+            background: #1d4ed8;
+        }
+
+        .button.secondary {
+            background: #374151;
+            color: white;
+        }
+
+        .button.secondary:hover {
+            background: #1f2937;
+        }
+
+        .button.danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .button.danger:hover {
+            background: #b91c1c;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 12px 15px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #1f2937;
+            color: #d1d5db;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                margin-top: 20px;
+                padding: 0 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <h1>Add New Shop</h1>
+
+            <p>
+                Field Person:
+                <strong>
+                    {{ field_person.user.full_name }}
+                </strong>
+            </p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="card">
+
+            <h2>Shop Information</h2>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for message in messages %}
+                            <div class="flash-message">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="name">
+                        Shop Name
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter shop name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="owner_name">
+                        Owner Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="owner_name"
+                        name="owner_name"
+                        placeholder="Enter owner name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter phone number"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter shop address"
+                    ></textarea>
+                </div>
+
+                <div class="actions">
+
+                    <button
+                        type="submit"
+                        class="button primary"
+                    >
+                        Add Shop
+                    </button>
+
+                    <a
+                        href="{{ url_for('field.my_shops') }}"
+                        class="button secondary"
+                    >
+                        Back to My Shops
+                    </a>
+
+                    <a
+                        href="{{ url_for('field.dashboard') }}"
+                        class="button secondary"
+                    >
+                        Field Dashboard
+                    </a>
+
+                    <a
+                        href="{{ url_for('auth.logout') }}"
+                        class="button danger"
+                    >
+                        Logout
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        NGO Medicine Management System
+    </footer>
+
+</body>
+
+</html>

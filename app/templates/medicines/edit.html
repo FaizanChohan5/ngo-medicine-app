@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Edit Medicine</title>
+
+</head>
+
+<body>
+
+    <h1>Edit Medicine</h1>
+
+    <hr>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <p>
+                    <strong>{{ message }}</strong>
+                </p>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <form method="POST">
+
+        <label for="name">
+            <strong>Medicine Name:</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            id="name"
+            name="name"
+            value="{{ medicine.name }}"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="category">
+            <strong>Category:</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            id="category"
+            name="category"
+            value="{{ medicine.category or '' }}"
+            placeholder="Tablet / Syrup / Injection"
+        >
+
+        <br><br>
+
+
+        <label for="unit">
+            <strong>Unit:</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            id="unit"
+            name="unit"
+            value="{{ medicine.unit }}"
+            placeholder="Box / Pack / Bottle"
+            required
+        >
+
+        <br><br>
+
+
+        <label for="price">
+            <strong>Default Price:</strong>
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            id="price"
+            name="price"
+            value="{{ medicine.price or 0 }}"
+            min="0"
+            step="0.01"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+
+            <input
+                type="checkbox"
+                name="is_active"
+                {% if medicine.is_active %}
+                    checked
+                {% endif %}
+            >
+
+            Active Medicine
+
+        </label>
+
+        <br><br>
+
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+
+    <br>
+
+    <a href="{{ url_for('medicinelist_medicines') }}">
+        Back to Medicines
+    </a>
+
+    |
+
+    <a href="{{ url_for('authlogout') }}">
+        Logout
+    </a>
+
+</body>
+
+</html>

@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>All Shops</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .view-button {
+            display: inline-block;
+            padding: 7px 12px;
+            background: #374151;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .view-button:hover {
+            background: #1f2937;
+        }
+
+        .back {
+            margin-top: 20px;
+        }
+
+        .back a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .back a:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>All Shops</h1>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <form method="GET"
+              action="{{ url_for('admin.shops') }}">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search shop by name"
+                value="{{ search or '' }}"
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+            {% if search %}
+
+                <a
+                    href="{{ url_for('admin.shops') }}"
+                    style="margin-left: 10px;"
+                >
+                    Clear
+                </a>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    <!-- SHOP TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Shop Name</th>
+
+                    <th>Owner Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Address</th>
+
+                    <th>Field Person</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for shop in shops %}
+
+                <tr>
+
+                    <td>
+                        {{ shop.id }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ shop.name }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ shop.owner_name or "-" }}
+                    </td>
+
+                    <td>
+                        {{ shop.phone or "-" }}
+                    </td>
+
+                    <td>
+                        {{ shop.address or "-" }}
+                    </td>
+
+                    <td>
+
+                        {% if shop.field_person
+                              and shop.field_person.user %}
+
+                            {{ shop.field_person.user.full_name }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <a
+                            class="view-button"
+                            href="{{ url_for(
+                                'admin.shop_details',
+                                shop_id=shop.id
+                            ) }}"
+                        >
+                            View Details
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+
+                        {% if search %}
+
+                            No shops found for
+                            "<strong>{{ search }}</strong>"
+
+                        {% else %}
+
+                            No shops have been registered yet
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <div class="back">
+
+        <a
+            href="{{ url_for('admin.dashboard') }}"
+        >
+            ← Back to Admin Dashboard
+        </a>
+
+        &nbsp; | &nbsp;
+
+        <a href="{{ url_for('auth.logout') }}">
+            Logout
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

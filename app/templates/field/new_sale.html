@@ -1,0 +1,1169 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>New Sale | NGO Medicine Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 24px 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+            font-size: 15px;
+        }
+
+        .header strong {
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .flash {
+            margin-bottom: 20px;
+            padding: 13px 15px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            border-radius: 6px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #374151;
+            font-size: 13px;
+            text-align: left;
+            padding: 13px 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        select:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+        }
+
+        .available {
+            color: #374151;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .stock-warning {
+            display: block;
+            margin-top: 5px;
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .line-total {
+            font-weight: bold;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .button.primary {
+            background: #2563eb;
+        }
+
+        .button.primary:hover {
+            background: #1d4ed8;
+        }
+
+        .button.success {
+            background: #15803d;
+        }
+
+        .button.success:hover {
+            background: #166534;
+        }
+
+        .button.danger {
+            background: #dc2626;
+            padding: 8px 11px;
+            font-size: 13px;
+        }
+
+        .button.danger:hover {
+            background: #b91c1c;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .total-box {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-top: 20px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .total-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .grand-total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #15803d;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #6b7280;
+        }
+
+        .empty h2 {
+            margin-top: 0;
+            color: #374151;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .navigation a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .navigation a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .card-body {
+                padding: 15px;
+            }
+
+            .total-box {
+                display: block;
+            }
+
+            .grand-total {
+                margin-top: 8px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1>New Sale</h1>
+
+    <p>
+        Shop:
+        <strong>{{ shop.name }}</strong>
+    </p>
+
+</div>
+
+
+<div class="container">
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash">
+                    <strong>{{ message }}</strong>
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    {% if field_stock %}
+
+        <div class="card">
+
+            <div class="card-header">
+                <h2>Medicine Sale</h2>
+            </div>
+
+            <div class="card-body">
+
+                <form method="POST"
+                      id="saleForm"
+                      onsubmit="return validateSaleForm()">
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Available</th>
+                                    <th>Quantity</th>
+                                    <th>Rate</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="saleItems">
+
+                                <tr class="sale-row">
+
+                                    <td>
+
+                                        <select
+                                            name="medicine_id"
+                                            class="medicine"
+                                            required
+                                        >
+
+                                            <option value="">
+                                                -- Select Medicine --
+                                            </option>
+
+                                            {% for item in field_stock %}
+
+                                                <option
+                                                    value="{{ item.medicine.id }}"
+                                                    data-stock="{{ item.quantity }}"
+                                                    data-price="{{ item.medicine.price or 0 }}"
+                                                    data-unit="{{ item.medicine.unit }}"
+                                                >
+                                                    {{ item.medicine.name }}
+                                                </option>
+
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="available">
+                                            -
+                                        </span>
+
+                                        <span class="stock-warning"></span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="number"
+                                            name="quantity"
+                                            class="quantity"
+                                            min="1"
+                                            step="1"
+                                            required
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <input
+                                            type="number"
+                                            name="rate"
+                                            class="rate"
+                                            min="0"
+                                            step="0.01"
+                                            required
+                                        >
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="line-total">
+                                            Rs 0.00
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="button danger"
+                                            onclick="removeRow(this)"
+                                        >
+                                            Remove
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="button"
+                            class="button primary"
+                            onclick="addRow()"
+                        >
+                            + Add Another Medicine
+                        </button>
+
+                    </div>
+
+
+                    <div class="total-box">
+
+                        <div class="total-label">
+                            Grand Total
+                        </div>
+
+                        <div
+                            id="grandTotal"
+                            class="grand-total"
+                        >
+                            Rs 0.00
+                        </div>
+
+                    </div>
+
+
+                    <div class="actions">
+
+                        <button
+                            type="submit"
+                            class="button success"
+                        >
+                            Complete Sale
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    {% else %}
+
+        <div class="card">
+
+            <div class="empty">
+
+                <h2>No Medicine Available</h2>
+
+                <p>
+                    You currently have no medicine in stock.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="navigation">
+
+        <a href="{{ url_for('field.shop_details', shop_id=shop.id) }}">
+            ← Back to Shop
+        </a>
+
+        <a href="{{ url_for('field.my_shops') }}">
+            My Shops
+        </a>
+
+        <a href="{{ url_for('field.dashboard') }}">
+            Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+<script>
+
+    const saleItems =
+        document.getElementById("saleItems");
+
+
+    // ========================================================
+    // GET SELECTED MEDICINE IDS
+    // ========================================================
+
+    function getSelectedMedicineIds(excludeRow = null) {
+
+        const selectedIds = [];
+
+        document
+            .querySelectorAll(".sale-row")
+            .forEach(function(row) {
+
+                if (row === excludeRow) {
+                    return;
+                }
+
+                const medicine =
+                    row.querySelector(".medicine");
+
+                if (medicine && medicine.value) {
+                    selectedIds.push(medicine.value);
+                }
+
+            });
+
+        return selectedIds;
+    }
+
+
+    // ========================================================
+    // UPDATE ROW
+    // ========================================================
+
+    function updateRow(row) {
+
+        if (!row) {
+            return;
+        }
+
+        const medicine =
+            row.querySelector(".medicine");
+
+        const quantity =
+            row.querySelector(".quantity");
+
+        const rate =
+            row.querySelector(".rate");
+
+        const available =
+            row.querySelector(".available");
+
+        const warning =
+            row.querySelector(".stock-warning");
+
+        const lineTotal =
+            row.querySelector(".line-total");
+
+
+        const option =
+            medicine.options[
+                medicine.selectedIndex
+            ];
+
+
+        warning.textContent = "";
+
+
+        if (!option || !option.value) {
+
+            available.textContent = "-";
+
+            rate.value = "";
+
+            lineTotal.textContent =
+                "Rs 0.00";
+
+            calculateGrandTotal();
+
+            return;
+        }
+
+
+        const stock =
+            parseInt(
+                option.dataset.stock || 0,
+                10
+            );
+
+
+        const price =
+            parseFloat(
+                option.dataset.price || 0
+            );
+
+
+        const unit =
+            option.dataset.unit || "";
+
+
+        available.textContent =
+            stock + " " + unit;
+
+
+        if (!rate.value) {
+
+            rate.value =
+                price.toFixed(2);
+
+        }
+
+
+        let qty =
+            parseInt(
+                quantity.value || 0,
+                10
+            );
+
+
+        if (qty < 0) {
+            qty = 0;
+        }
+
+
+        if (qty > stock) {
+
+            warning.textContent =
+                "Quantity cannot exceed available stock.";
+
+        }
+
+
+        const saleRate =
+            parseFloat(
+                rate.value || 0
+            );
+
+
+        const total =
+            qty * saleRate;
+
+
+        lineTotal.textContent =
+            "Rs " +
+            total.toFixed(2);
+
+
+        calculateGrandTotal();
+
+    }
+
+
+    // ========================================================
+    // GRAND TOTAL
+    // ========================================================
+
+    function calculateGrandTotal() {
+
+        let grandTotal = 0;
+
+
+        document
+            .querySelectorAll(".sale-row")
+            .forEach(function(row) {
+
+                const quantity =
+                    parseFloat(
+                        row.querySelector(
+                            ".quantity"
+                        ).value || 0
+                    );
+
+
+                const rate =
+                    parseFloat(
+                        row.querySelector(
+                            ".rate"
+                        ).value || 0
+                    );
+
+
+                grandTotal +=
+                    quantity * rate;
+
+            });
+
+
+        document.getElementById(
+            "grandTotal"
+        ).textContent =
+            "Rs " +
+            grandTotal.toFixed(2);
+
+    }
+
+
+    // ========================================================
+    // ADD NEW ROW
+    // ========================================================
+
+    function addRow() {
+
+        const firstRow =
+            document.querySelector(
+                ".sale-row"
+            );
+
+
+        if (!firstRow) {
+            return;
+        }
+
+
+        const newRow =
+            firstRow.cloneNode(true);
+
+
+        newRow.querySelector(
+            ".medicine"
+        ).value = "";
+
+
+        newRow.querySelector(
+            ".quantity"
+        ).value = "";
+
+
+        newRow.querySelector(
+            ".rate"
+        ).value = "";
+
+
+        newRow.querySelector(
+            ".available"
+        ).textContent = "-";
+
+
+        newRow.querySelector(
+            ".stock-warning"
+        ).textContent = "";
+
+
+        newRow.querySelector(
+            ".line-total"
+        ).textContent =
+            "Rs 0.00";
+
+
+        saleItems.appendChild(
+            newRow
+        );
+
+
+        calculateGrandTotal();
+
+    }
+
+
+    // ========================================================
+    // REMOVE ROW
+    // ========================================================
+
+    function removeRow(button) {
+
+        const rows =
+            document.querySelectorAll(
+                ".sale-row"
+            );
+
+
+        if (rows.length === 1) {
+
+            alert(
+                "At least one medicine is required."
+            );
+
+            return;
+
+        }
+
+
+        const row =
+            button.closest(".sale-row");
+
+
+        if (row) {
+            row.remove();
+        }
+
+
+        calculateGrandTotal();
+
+    }
+
+
+    // ========================================================
+    // CHANGE EVENT
+    // ========================================================
+
+    document.addEventListener(
+        "change",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "medicine"
+                )
+            ) {
+
+                const row =
+                    event.target.closest(
+                        ".sale-row"
+                    );
+
+
+                const medicineId =
+                    event.target.value;
+
+
+                if (medicineId) {
+
+                    const duplicateIds =
+                        getSelectedMedicineIds(row);
+
+
+                    if (
+                        duplicateIds.includes(
+                            medicineId
+                        )
+                    ) {
+
+                        alert(
+                            "This medicine is already added to the sale."
+                        );
+
+
+                        event.target.value = "";
+
+
+                        updateRow(row);
+
+
+                        return;
+
+                    }
+
+                }
+
+
+                updateRow(row);
+
+            }
+
+        }
+    );
+
+
+    // ========================================================
+    // INPUT EVENT
+    // ========================================================
+
+    document.addEventListener(
+        "input",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "quantity"
+                ) ||
+                event.target.classList.contains(
+                    "rate"
+                )
+            ) {
+
+                updateRow(
+                    event.target.closest(
+                        ".sale-row"
+                    )
+                );
+
+            }
+
+        }
+    );
+
+
+    // ========================================================
+    // FINAL FORM VALIDATION
+    // ========================================================
+
+    function validateSaleForm() {
+
+        const rows =
+            document.querySelectorAll(
+                ".sale-row"
+            );
+
+
+        if (rows.length === 0) {
+
+            alert(
+                "Please add at least one medicine."
+            );
+
+            return false;
+
+        }
+
+
+        const selectedIds = [];
+
+
+        for (
+            let i = 0;
+            i < rows.length;
+            i++
+        ) {
+
+            const row = rows[i];
+
+
+            const medicine =
+                row.querySelector(
+                    ".medicine"
+                );
+
+
+            const quantity =
+                row.querySelector(
+                    ".quantity"
+                );
+
+
+            const rate =
+                row.querySelector(
+                    ".rate"
+                );
+
+
+            const selectedMedicine =
+                medicine.value;
+
+
+            const qty =
+                parseInt(
+                    quantity.value || 0,
+                    10
+                );
+
+
+            const saleRate =
+                parseFloat(
+                    rate.value || 0
+                );
+
+
+            // ----------------------------------------------
+            // MEDICINE REQUIRED
+            // ----------------------------------------------
+
+            if (!selectedMedicine) {
+
+                alert(
+                    "Please select a medicine for every row."
+                );
+
+                medicine.focus();
+
+                return false;
+
+            }
+
+
+            // ----------------------------------------------
+            // DUPLICATE MEDICINE
+            // ----------------------------------------------
+
+            if (
+                selectedIds.includes(
+                    selectedMedicine
+                )
+            ) {
+
+                alert(
+                    "The same medicine cannot be added twice."
+                );
+
+                medicine.focus();
+
+                return false;
+
+            }
+
+
+            selectedIds.push(
+                selectedMedicine
+            );
+
+
+            // ----------------------------------------------
+            // QUANTITY VALIDATION
+            // ----------------------------------------------
+
+            if (
+                !Number.isInteger(qty) ||
+                qty <= 0
+            ) {
+
+                alert(
+                    "Quantity must be a whole number greater than zero."
+                );
+
+                quantity.focus();
+
+                return false;
+
+            }
+
+
+            // ----------------------------------------------
+            // AVAILABLE STOCK
+            // ----------------------------------------------
+
+            const option =
+                medicine.options[
+                    medicine.selectedIndex
+                ];
+
+
+            const stock =
+                parseInt(
+                    option.dataset.stock || 0,
+                    10
+                );
+
+
+            if (qty > stock) {
+
+                alert(
+                    "Quantity for " +
+                    option.text.trim() +
+                    " exceeds available stock."
+                );
+
+                quantity.focus();
+
+                return false;
+
+            }
+
+
+            // ----------------------------------------------
+            // RATE VALIDATION
+            // ----------------------------------------------
+
+            if (
+                isNaN(saleRate) ||
+                saleRate < 0
+            ) {
+
+                alert(
+                    "Rate cannot be negative."
+                );
+
+                rate.focus();
+
+                return false;
+
+            }
+
+        }
+
+
+        return true;
+
+    }
+
+
+    // ========================================================
+    // INITIAL TOTAL
+    // ========================================================
+
+    calculateGrandTotal();
+
+</script>
+
+</body>
+
+</html>

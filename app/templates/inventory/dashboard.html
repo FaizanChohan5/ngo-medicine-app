@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Main Inventory</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 22px 30px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px 0;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .success {
+            background: #15803d;
+        }
+
+        .success:hover {
+            background: #166534;
+        }
+
+        .warning {
+            background: #d97706;
+        }
+
+        .warning:hover {
+            background: #b45309;
+        }
+
+        .secondary {
+            background: #374151;
+        }
+
+        .secondary:hover {
+            background: #1f2937;
+        }
+
+        .table-container {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th,
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #1f4e78;
+            color: white;
+            font-weight: bold;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stock-quantity {
+            font-weight: bold;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background: #1f2937;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0 0 8px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Main Inventory</h1>
+
+    <p>
+        Welcome,
+        <strong>{{ current_user.full_name }}</strong>
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- INVENTORY ACTIONS -->
+
+    <div class="actions">
+
+        <a
+            class="button success"
+            href="{{ url_for('inventory.receive_stock') }}"
+        >
+            + Receive Stock
+        </a>
+
+        <a
+            class="button warning"
+            href="{{ url_for('inventory.dispatch_stock') }}"
+        >
+            Dispatch Stock to Field Person
+        </a>
+
+        <a
+            class="button secondary"
+            href="{{ url_for('inventory.history') }}"
+        >
+            View Stock History
+        </a>
+
+    </div>
+
+
+    <!-- INVENTORY TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>Medicine</th>
+                    <th>Category</th>
+                    <th>Unit</th>
+                    <th>Current Stock</th>
+                    <th>Price</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for stock in stocks %}
+
+                <tr>
+
+                    <td>
+                        {{ stock.id }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ stock.medicine.name if stock.medicine else "-" }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ stock.medicine.category
+                           if stock.medicine
+                           else "-" }}
+                    </td>
+
+                    <td>
+                        {{ stock.medicine.unit
+                           if stock.medicine
+                           else "-" }}
+                    </td>
+
+                    <td class="stock-quantity">
+                        {{ stock.quantity }}
+                    </td>
+
+                    <td>
+                        Rs {{ "%.2f"|format(
+                            stock.medicine.price
+                            if stock.medicine and stock.medicine.price
+                            else 0
+                        ) }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty"
+                    >
+                        No stock available yet.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- BACK -->
+
+    <div style="margin-top: 20px;">
+
+        <a
+            class="button secondary"
+            href="{{ url_for('dashboard') }}"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

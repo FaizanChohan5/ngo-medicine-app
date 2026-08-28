@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Field Person Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 24px 30px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #d1d5db;
+            font-size: 15px;
+        }
+
+        .header strong {
+            color: white;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            margin: 0 0 18px;
+            font-size: 22px;
+        }
+
+        .section-description {
+            margin: -8px 0 22px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* =========================
+           MODULE GRID
+        ========================= */
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(220px, 1fr)
+            );
+            gap: 18px;
+        }
+
+        .module-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10);
+        }
+
+        .module-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eff6ff;
+            border-radius: 9px;
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .module-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .module-card p {
+            margin: 0 0 18px;
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .button.success {
+            background: #15803d;
+        }
+
+        .button.success:hover {
+            background: #166534;
+        }
+
+        .button.warning {
+            background: #d97706;
+        }
+
+        .button.warning:hover {
+            background: #b45309;
+        }
+
+        .button.secondary {
+            background: #374151;
+        }
+
+        .button.secondary:hover {
+            background: #1f2937;
+        }
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .logout-section {
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid #d1d5db;
+        }
+
+        .logout-button {
+            display: inline-block;
+            padding: 10px 16px;
+            background: #dc2626;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-button:hover {
+            background: #b91c1c;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #1f2937;
+            color: #d1d5db;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                margin-top: 22px;
+                padding: 0 15px;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-content">
+
+            <h1>Field Person Dashboard</h1>
+
+            <p>
+                Welcome,
+                <strong>
+                    {{ field_person.user.full_name }}
+                </strong>
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="container">
+
+        <h2 class="section-title">
+            Field Modules
+        </h2>
+
+        <p class="section-description">
+            Manage your assigned stock, shops and medicine sales
+        </p>
+
+
+        <div class="module-grid">
+
+
+            <!-- MY STOCK -->
+
+            <div class="module-card">
+
+                <div class="module-icon">
+                    📦
+                </div>
+
+                <h3>
+                    My Stock
+                </h3>
+
+                <p>
+                    View medicines currently assigned
+                    to your field stock
+                </p>
+
+                <a
+                    class="button"
+                    href="{{ url_for('field.my_stock') }}"
+                >
+                    View My Stock
+                </a>
+
+            </div>
+
+
+            <!-- MY SHOPS -->
+
+            <div class="module-card">
+
+                <div class="module-icon">
+                    🏪
+                </div>
+
+                <h3>
+                    My Shops
+                </h3>
+
+                <p>
+                    View and manage shops assigned
+                    to you
+                </p>
+
+                <a
+                    class="button"
+                    href="{{ url_for('field.my_shops') }}"
+                >
+                    View My Shops
+                </a>
+
+            </div>
+
+
+            <!-- ADD SHOP -->
+
+            <div class="module-card">
+
+                <div class="module-icon">
+                    ➕
+                </div>
+
+                <h3>
+                    Add Shop
+                </h3>
+
+                <p>
+                    Register a new medical shop
+                    under your field operations
+                </p>
+
+                <a
+                    class="button success"
+                    href="{{ url_for('field.add_shop') }}"
+                >
+                    Add New Shop
+                </a>
+
+            </div>
+
+
+            <!-- NEW SALE -->
+
+            <div class="module-card">
+
+                <div class="module-icon">
+                    💰
+                </div>
+
+                <h3>
+                    New Sale
+                </h3>
+
+                <p>
+                    Select a shop and record
+                    a new medicine sale
+                </p>
+
+                <a
+                    class="button warning"
+                    href="{{ url_for('field.my_shops') }}"
+                >
+                    Start New Sale
+                </a>
+
+            </div>
+
+
+            <!-- SALES HISTORY -->
+
+            <div class="module-card">
+
+                <div class="module-icon">
+                    📋
+                </div>
+
+                <h3>
+                    Sales History
+                </h3>
+
+                <p>
+                    Review previously recorded
+                    medicine sales
+                </p>
+
+                <a
+                    class="button secondary"
+                    href="{{ url_for('field.sales_history') }}"
+                >
+                    View Sales History
+                </a>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- LOGOUT -->
+
+        <div class="logout-section">
+
+            <a
+                class="logout-button"
+                href="{{ url_for('auth.logout') }}"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        NGO Medicine Management System
+
+    </footer>
+
+</body>
+
+</html>
