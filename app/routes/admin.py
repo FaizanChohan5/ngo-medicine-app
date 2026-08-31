@@ -172,58 +172,49 @@ def add_field_person():
             ""
         ).strip()
 
+        # ----------------------------------------------------
+        # VALIDATION
+        # ----------------------------------------------------
+
         if not full_name:
-
-            flash(
-                "Full name is required."
-            )
-
+            flash("Full name is required.")
             return redirect(
-                url_for(
-                    "admin.add_field_person"
-                )
+                url_for("admin.add_field_person")
             )
 
         if not username:
-
-            flash(
-                "Username is required."
-            )
-
+            flash("Username is required.")
             return redirect(
-                url_for(
-                    "admin.add_field_person"
-                )
+                url_for("admin.add_field_person")
             )
 
         if not password:
-
-            flash(
-                "Password is required."
-            )
-
+            flash("Password is required.")
             return redirect(
-                url_for(
-                    "admin.add_field_person"
-                )
+                url_for("admin.add_field_person")
             )
+
+        # ----------------------------------------------------
+        # CHECK DUPLICATE USERNAME
+        # ----------------------------------------------------
 
         existing_user = User.query.filter_by(
             username=username
         ).first()
 
         if existing_user:
-
             flash(
                 "Username already exists. "
                 "Please choose another username."
             )
 
             return redirect(
-                url_for(
-                    "admin.add_field_person"
-                )
+                url_for("admin.add_field_person")
             )
+
+        # ----------------------------------------------------
+        # CREATE USER + FIELD PERSON
+        # ----------------------------------------------------
 
         try:
 
@@ -257,9 +248,7 @@ def add_field_person():
             )
 
             return redirect(
-                url_for(
-                    "admin.field_persons"
-                )
+                url_for("admin.field_persons")
             )
 
         except Exception as e:
@@ -277,9 +266,7 @@ def add_field_person():
             )
 
             return redirect(
-                url_for(
-                    "admin.add_field_person"
-                )
+                url_for("admin.add_field_person")
             )
 
     return render_template(
@@ -418,6 +405,10 @@ def export_reports():
     if not admin_required():
         return "Access Denied", 403
 
+    # ========================================================
+    # OPENPYXL
+    # ========================================================
+
     try:
 
         from openpyxl import Workbook
@@ -444,7 +435,7 @@ def export_reports():
         )
 
     # ========================================================
-    # SELECT MONTH AND YEAR
+    # MONTH / YEAR
     # ========================================================
 
     month = request.args.get(
@@ -472,7 +463,10 @@ def export_reports():
     start_date = datetime(
         year,
         month,
-        1
+        1,
+        0,
+        0,
+        0
     )
 
     last_day = monthrange(
@@ -622,7 +616,7 @@ def export_reports():
     )
 
     # ========================================================
-    # STYLE HEADER
+    # HEADER STYLE
     # ========================================================
 
     def style_header(sheet, row=1):
@@ -635,7 +629,7 @@ def export_reports():
             cell.border = thin_border
 
     # ========================================================
-    # APPLY BORDERS
+    # BORDERS
     # ========================================================
 
     def apply_borders(sheet):
@@ -678,7 +672,10 @@ def export_reports():
             sheet.column_dimensions[
                 column_letter
             ].width = min(
-                max(max_length + 2, 12),
+                max(
+                    max_length + 2,
+                    12
+                ),
                 35
             )
 

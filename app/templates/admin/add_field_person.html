@@ -1,174 +1,282 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}
+    Add Field Person
+{% endblock %}
 
-    <title>Add Field Person</title>
+{% block head %}
 
-    <style>
-        * {
-            box-sizing: border-box;
+<style>
+
+    .form-page {
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 26px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-header {
+        margin-bottom: 24px;
+    }
+
+    .form-header h1 {
+        margin: 0 0 6px;
+        font-size: 24px;
+        color: #1f2937;
+    }
+
+    .form-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: 600;
+        color: #374151;
+        font-size: 14px;
+    }
+
+    .form-group input {
+        width: 100%;
+        min-height: 46px;
+        padding: 11px 13px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+
+        background: #ffffff;
+
+        font-size: 15px;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #1f4e78;
+        box-shadow: 0 0 0 3px rgba(31, 78, 120, 0.10);
+    }
+
+    .form-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .form-button {
+        min-height: 46px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        border-radius: 8px;
+
+        background: #1f4e78;
+        color: white;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .form-button:hover {
+        background: #173a5c;
+    }
+
+    .form-button.secondary {
+        background: #374151;
+    }
+
+    .form-button.secondary:hover {
+        background: #1f2937;
+    }
+
+    .form-message {
+        padding: 12px 14px;
+        margin-bottom: 18px;
+
+        border-radius: 8px;
+
+        background: #dcfce7;
+        color: #166534;
+
+        font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+
+        .form-page {
+            padding: 10px 0;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
+        .form-card {
             padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 30px;
             border-radius: 10px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        h1 {
-            margin-top: 0;
+        .form-header h1 {
+            font-size: 21px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
+        .form-actions {
+            grid-template-columns: 1fr;
         }
 
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 600;
-        }
+    }
 
-        input {
-            width: 100%;
-            padding: 11px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
+</style>
 
-        input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
+{% endblock %}
 
-        button,
-        .button {
-            display: inline-block;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-        }
 
-        button:hover,
-        .button:hover {
-            background: #1d4ed8;
-        }
+{% block content %}
 
-        .secondary {
-            background: #374151;
-        }
+<div class="form-page">
 
-        .secondary:hover {
-            background: #1f2937;
-        }
+    <div class="form-card">
 
-        .message {
-            padding: 10px;
-            margin-bottom: 18px;
-            border-radius: 6px;
-            background: #dcfce7;
-            color: #166534;
-        }
-    </style>
-</head>
+        <!-- HEADER -->
 
-<body>
+        <div class="form-header">
 
-<div class="container">
+            <h1>
+                Add Field Person
+            </h1>
 
-    <div class="card">
+            <p>
+                Create a new field person account.
+            </p>
 
-        <h1>Add Field Person</h1>
+        </div>
+
+
+        <!-- FLASH MESSAGES -->
 
         {% with messages = get_flashed_messages() %}
+
             {% if messages %}
+
                 {% for message in messages %}
-                    <div class="message">
+
+                    <div class="form-message">
                         {{ message }}
                     </div>
+
                 {% endfor %}
+
             {% endif %}
+
         {% endwith %}
+
+
+        <!-- FORM -->
 
         <form method="POST">
 
             <div class="form-group">
-                <label for="full_name">Full Name</label>
+
+                <label for="full_name">
+                    Full Name
+                </label>
 
                 <input
                     type="text"
                     id="full_name"
                     name="full_name"
+                    autocomplete="name"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="username">Username</label>
+
+                <label for="username">
+                    Username
+                </label>
 
                 <input
                     type="text"
                     id="username"
                     name="username"
+                    autocomplete="username"
                     required
                 >
+
             </div>
 
+
             <div class="form-group">
-                <label for="password">Password</label>
+
+                <label for="password">
+                    Password
+                </label>
 
                 <input
                     type="password"
                     id="password"
                     name="password"
+                    autocomplete="new-password"
                     required
                 >
+
             </div>
+
 
             <div class="form-group">
-                <label for="phone">Phone</label>
+
+                <label for="phone">
+                    Phone
+                </label>
 
                 <input
-                    type="text"
+                    type="tel"
                     id="phone"
                     name="phone"
+                    autocomplete="tel"
                 >
+
             </div>
 
-            <button type="submit">
-                Create Field Person
-            </button>
 
-            <a
-                class="button secondary"
-                href="{{ url_for('admin.field_persons') }}"
-            >
-                Back to Field Persons
-            </a>
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="form-button"
+                >
+                    Create Field Person
+                </button>
+
+                <a
+                    class="form-button secondary"
+                    href="{{ url_for('admin.field_persons') }}"
+                >
+                    Back
+                </a>
+
+            </div>
 
         </form>
 
@@ -176,5 +284,4 @@
 
 </div>
 
-</body>
-</html>
+{% endblock %}

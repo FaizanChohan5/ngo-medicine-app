@@ -1,22 +1,241 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
 
-    <title>Edit Medicine</title>
+<title>Edit Medicine | NGO Medicine Management System</title>
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f4f6f8;
+        color: #1f2937;
+    }
+
+    .header {
+        background: #1f2937;
+        color: white;
+        padding: 22px 30px;
+    }
+
+    .header-content {
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .header h1 {
+        margin: 0 0 6px;
+        font-size: 27px;
+    }
+
+    .header p {
+        margin: 0;
+        color: #d1d5db;
+        font-size: 14px;
+    }
+
+    .container {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .flash {
+        padding: 12px 15px;
+        margin-bottom: 18px;
+        border-radius: 6px;
+        background: #dbeafe;
+        border: 1px solid #bfdbfe;
+        color: #1e3a8a;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #374151;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 15px;
+        background: white;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 5px;
+        margin-bottom: 22px;
+    }
+
+    .checkbox-group input {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+    }
+
+    .checkbox-group label {
+        margin: 0;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 11px 17px;
+        border: none;
+        border-radius: 6px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .button:hover {
+        background: #1d4ed8;
+    }
+
+    .secondary {
+        background: #374151;
+    }
+
+    .secondary:hover {
+        background: #1f2937;
+    }
+
+    .footer {
+        margin-top: 40px;
+        padding: 20px;
+        background: #1f2937;
+        color: #d1d5db;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .footer p {
+        margin: 0 0 8px;
+    }
+
+    .footer a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+
+        .header {
+            padding: 18px;
+        }
+
+        .header h1 {
+            font-size: 23px;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .actions {
+            flex-direction: column;
+        }
+
+        .button {
+            width: 100%;
+            text-align: center;
+        }
+
+    }
+
+</style>
+```
 
 </head>
 
 <body>
 
-    <h1>Edit Medicine</h1>
+<header class="header">
 
-    <hr>
+```
+<div class="header-content">
+
+    <h1>
+        Edit Medicine
+    </h1>
+
+    <p>
+        Update medicine information and status
+    </p>
+
+</div>
+```
+
+</header>
+
+<main class="container">
+
+```
+<div class="card">
+
+
+    <!-- FLASH MESSAGES -->
 
     {% with messages = get_flashed_messages() %}
 
@@ -24,9 +243,9 @@
 
             {% for message in messages %}
 
-                <p>
-                    <strong>{{ message }}</strong>
-                </p>
+                <div class="flash">
+                    {{ message }}
+                </div>
 
             {% endfor %}
 
@@ -35,114 +254,152 @@
     {% endwith %}
 
 
+    <!-- EDIT MEDICINE FORM -->
+
     <form method="POST">
 
-        <label for="name">
-            <strong>Medicine Name:</strong>
-        </label>
 
-        <br>
+        <!-- MEDICINE NAME -->
 
-        <input
-            type="text"
-            id="name"
-            name="name"
-            value="{{ medicine.name }}"
-            required
-        >
+        <div class="form-group">
 
-        <br><br>
+            <label for="name">
+                Medicine Name
+            </label>
 
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ medicine.name }}"
+                required
+            >
 
-        <label for="category">
-            <strong>Category:</strong>
-        </label>
-
-        <br>
-
-        <input
-            type="text"
-            id="category"
-            name="category"
-            value="{{ medicine.category or '' }}"
-            placeholder="Tablet / Syrup / Injection"
-        >
-
-        <br><br>
+        </div>
 
 
-        <label for="unit">
-            <strong>Unit:</strong>
-        </label>
+        <!-- CATEGORY -->
 
-        <br>
+        <div class="form-group">
 
-        <input
-            type="text"
-            id="unit"
-            name="unit"
-            value="{{ medicine.unit }}"
-            placeholder="Box / Pack / Bottle"
-            required
-        >
+            <label for="category">
+                Category
+            </label>
 
-        <br><br>
+            <input
+                type="text"
+                id="category"
+                name="category"
+                value="{{ medicine.category or '' }}"
+                placeholder="Tablet / Syrup / Injection"
+            >
 
-
-        <label for="price">
-            <strong>Default Price:</strong>
-        </label>
-
-        <br>
-
-        <input
-            type="number"
-            id="price"
-            name="price"
-            value="{{ medicine.price or 0 }}"
-            min="0"
-            step="0.01"
-            required
-        >
-
-        <br><br>
+        </div>
 
 
-        <label>
+        <!-- UNIT -->
+
+        <div class="form-group">
+
+            <label for="unit">
+                Unit
+            </label>
+
+            <input
+                type="text"
+                id="unit"
+                name="unit"
+                value="{{ medicine.unit }}"
+                placeholder="Box / Pack / Bottle"
+                required
+            >
+
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="form-group">
+
+            <label for="price">
+                Default Rate
+            </label>
+
+            <input
+                type="number"
+                id="price"
+                name="price"
+                value="{{ medicine.price or 0 }}"
+                min="0"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <!-- ACTIVE STATUS -->
+
+        <div class="checkbox-group">
 
             <input
                 type="checkbox"
+                id="is_active"
                 name="is_active"
                 {% if medicine.is_active %}
                     checked
                 {% endif %}
             >
 
-            Active Medicine
+            <label for="is_active">
+                Active Medicine
+            </label>
 
-        </label>
-
-        <br><br>
+        </div>
 
 
-        <button type="submit">
-            Save Changes
-        </button>
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <button
+                type="submit"
+                class="button"
+            >
+                Save Changes
+            </button>
+
+            <a
+                href="{{ url_for('medicine.list_medicines') }}"
+                class="button secondary"
+            >
+                Back to Medicines
+            </a>
+
+        </div>
+
 
     </form>
 
 
-    <br>
+</div>
+```
 
-    <a href="{{ url_for('medicinelist_medicines') }}">
-        Back to Medicines
-    </a>
+</main>
 
-    |
+<footer class="footer">
 
-    <a href="{{ url_for('authlogout') }}">
-        Logout
-    </a>
+```
+<p>
+    NGO Medicine Management System
+</p>
+
+<a href="{{ url_for('auth.logout') }}">
+    Logout
+</a>
+```
+
+</footer>
 
 </body>
 

@@ -1,321 +1,452 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿{% extends "base.html" %}
 
-<head>
+{% block title %}
+Sale Details
+{% endblock %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block head %}
 
-    <title>Sale Details</title>
+<style>
 
-    <style>
+    .sale-details-container {
+        max-width: 1000px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
 
-        * {
-            box-sizing: border-box;
+    .sale-details-header {
+        background: #1f2937;
+        color: white;
+        padding: 22px 30px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+
+    .sale-details-header h1 {
+        margin: 0;
+    }
+
+    .sale-details-card {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .sale-details-info-grid {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
+        gap: 15px;
+    }
+
+    .sale-details-info-item {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #eef0f2;
+    }
+
+    .sale-details-info-item strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #374151;
+    }
+
+    .sale-details-card h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .sale-details-table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .sale-details-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+    }
+
+    .sale-details-table th,
+    .sale-details-table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+    }
+
+    .sale-details-table th {
+        background: #1f4e78;
+        color: white;
+        white-space: nowrap;
+    }
+
+    .sale-details-table tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    .sale-details-grand-total {
+        text-align: right;
+        font-size: 22px;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .sale-details-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .sale-details-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #374151;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .sale-details-button:hover {
+        background: #1f2937;
+    }
+
+    .sale-details-button.primary {
+        background: #2563eb;
+    }
+
+    .sale-details-button.primary:hover {
+        background: #1d4ed8;
+    }
+
+    .sale-details-button.danger {
+        background: #dc2626;
+    }
+
+    .sale-details-button.danger:hover {
+        background: #b91c1c;
+    }
+
+    .sale-details-empty {
+        padding: 20px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    @media (max-width: 700px) {
+
+        .sale-details-container {
+            margin: 20px auto;
+            padding: 0 12px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        .header {
-            background: #1f2937;
-            color: white;
-            padding: 22px 30px;
-        }
-
-        .header h1 {
-            margin: 0;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .info-item {
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .info-item strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #374151;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: left;
-        }
-
-        th {
-            background: #1f4e78;
-            color: white;
-        }
-
-        .grand-total {
-            text-align: right;
-            font-size: 22px;
-            margin-top: 20px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 15px;
-            background: #374151;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            margin-right: 8px;
-            margin-top: 8px;
-        }
-
-        .button:hover {
-            background: #1f2937;
-        }
-
-        .primary {
-            background: #2563eb;
-        }
-
-        .primary:hover {
-            background: #1d4ed8;
-        }
-
-        .danger {
-            background: #dc2626;
-        }
-
-        .danger:hover {
-            background: #b91c1c;
-        }
-
-        .empty {
+        .sale-details-header {
             padding: 20px;
+        }
+
+        .sale-details-card {
+            padding: 18px;
+        }
+
+        .sale-details-actions {
+            flex-direction: column;
+        }
+
+        .sale-details-actions .sale-details-button {
+            width: 100%;
             text-align: center;
-            color: #6b7280;
         }
 
-        @media (max-width: 700px) {
+    }
 
-            .container {
-                padding: 0 12px;
-            }
+</style>
 
-            .card {
-                padding: 18px;
-                overflow-x: auto;
-            }
+{% endblock %}
 
-            table {
-                min-width: 650px;
-            }
+{% block content %}
 
-        }
+<div class="sale-details-container">
 
-    </style>
+```
+<!-- =====================================================
+     HEADER
+====================================================== -->
 
-</head>
+<div class="sale-details-header">
 
-<body>
-
-<div class="header">
-
-    <h1>Sale Details</h1>
+    <h1>
+        Sale Details
+    </h1>
 
 </div>
 
-<div class="container">
 
-    <div class="card">
+<!-- =====================================================
+     SALE INFORMATION
+====================================================== -->
 
-        <div class="info-grid">
+<div class="sale-details-card">
 
-            <div class="info-item">
+    <div class="sale-details-info-grid">
 
-                <strong>Sale ID</strong>
 
-                {{ sale.id }}
+        <div class="sale-details-info-item">
 
-            </div>
+            <strong>
+                Sale ID
+            </strong>
 
-            <div class="info-item">
-
-                <strong>Shop</strong>
-
-                {% if sale.shop %}
-                    {{ sale.shop.name }}
-                {% else %}
-                    -
-                {% endif %}
-
-            </div>
-
-            <div class="info-item">
-
-                <strong>Field Person</strong>
-
-                {% if sale.field_person and sale.field_person.user %}
-                    {{ sale.field_person.user.full_name }}
-                {% else %}
-                    -
-                {% endif %}
-
-            </div>
-
-            <div class="info-item">
-
-                <strong>Date</strong>
-
-                {% if sale.created_at %}
-                    {{ sale.created_at.strftime("%d-%b-%Y %I:%M %p") }}
-                {% else %}
-                    N/A
-                {% endif %}
-
-            </div>
+            {{ sale.id }}
 
         </div>
 
+
+        <div class="sale-details-info-item">
+
+            <strong>
+                Shop
+            </strong>
+
+            {% if sale.shop %}
+
+                {{ sale.shop.name }}
+
+            {% else %}
+
+                -
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="sale-details-info-item">
+
+            <strong>
+                Field Person
+            </strong>
+
+            {% if sale.field_person and sale.field_person.user %}
+
+                {{ sale.field_person.user.full_name }}
+
+            {% else %}
+
+                -
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="sale-details-info-item">
+
+            <strong>
+                Date
+            </strong>
+
+            {% if sale.created_at %}
+
+                {{
+                    sale.created_at.strftime(
+                        "%d-%b-%Y %I:%M %p"
+                    )
+                }}
+
+            {% else %}
+
+                N/A
+
+            {% endif %}
+
+        </div>
+
+
     </div>
 
+</div>
 
-    <div class="card">
 
-        <h2>Sale Items</h2>
+<!-- =====================================================
+     SALE ITEMS
+====================================================== -->
 
-        {% if sale_items %}
+<div class="sale-details-card">
 
-        <table>
+    <h2>
+        Sale Items
+    </h2>
 
-            <thead>
 
-                <tr>
-                    <th>Medicine</th>
-                    <th>Quantity</th>
-                    <th>Rate</th>
-                    <th>Total</th>
-                </tr>
+    {% if sale_items %}
 
-            </thead>
+        <div class="sale-details-table-container">
 
-            <tbody>
+            <table class="sale-details-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Medicine
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Rate
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
 
                 {% for item in sale_items %}
 
-                <tr>
+                    <tr>
 
-                    <td>
+                        <td>
 
-                        {% if item.medicine %}
-                            {{ item.medicine.name }}
-                        {% else %}
-                            Medicine #{{ item.medicine_id }}
-                        {% endif %}
+                            {% if item.medicine %}
 
-                    </td>
+                                {{ item.medicine.name }}
 
-                    <td>
+                            {% else %}
 
-                        {{ item.quantity }}
+                                Medicine #{{ item.medicine_id }}
 
-                        {% if item.medicine and item.medicine.unit %}
-                            {{ item.medicine.unit }}
-                        {% endif %}
+                            {% endif %}
 
-                    </td>
+                        </td>
 
-                    <td>
-                        Rs {{ "%.2f"|format(item.rate or 0) }}
-                    </td>
 
-                    <td>
-                        Rs {{ "%.2f"|format(item.total or 0) }}
-                    </td>
+                        <td>
 
-                </tr>
+                            {{ item.quantity }}
+
+                            {% if item.medicine and item.medicine.unit %}
+
+                                {{ item.medicine.unit }}
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            Rs {{
+                                "%.2f"|format(
+                                    item.rate or 0
+                                )
+                            }}
+
+                        </td>
+
+
+                        <td>
+
+                            Rs {{
+                                "%.2f"|format(
+                                    item.total or 0
+                                )
+                            }}
+
+                        </td>
+
+                    </tr>
 
                 {% endfor %}
 
-            </tbody>
+                </tbody>
 
-        </table>
-
-        {% else %}
-
-            <div class="empty">
-                No items found for this sale.
-            </div>
-
-        {% endif %}
-
-
-        <div class="grand-total">
-
-            <strong>
-                Grand Total:
-                Rs {{ "%.2f"|format(sale.total_amount or 0) }}
-            </strong>
+            </table>
 
         </div>
 
-    </div>
+
+    {% else %}
+
+        <div class="sale-details-empty">
+
+            No items found for this sale.
+
+        </div>
+
+    {% endif %}
 
 
-    <div>
+    <!-- =================================================
+         GRAND TOTAL
+    ================================================== -->
 
-        <a
-            class="button primary"
-            href="{{ url_for('admin.sales') }}"
-        >
-            ← Back to All Sales
-        </a>
+    <div class="sale-details-grand-total">
 
-        <a
-            class="button"
-            href="{{ url_for('admin.dashboard') }}"
-        >
-            Admin Dashboard
-        </a>
+        <strong>
 
-        <a
-            class="button danger"
-            href="{{ url_for('auth.logout') }}"
-        >
-            Logout
-        </a>
+            Grand Total:
+            Rs {{
+                "%.2f"|format(
+                    sale.total_amount or 0
+                )
+            }}
+
+        </strong>
 
     </div>
 
 </div>
 
-</body>
 
-</html>
+<!-- =====================================================
+     ACTIONS
+====================================================== -->
+
+<div class="sale-details-actions">
+
+    <a
+        class="sale-details-button primary"
+        href="{{ url_for('admin.sales') }}"
+    >
+        ← Back to All Sales
+    </a>
+
+
+    <a
+        class="sale-details-button"
+        href="{{ url_for('admin.dashboard') }}"
+    >
+        Admin Dashboard
+    </a>
+
+
+    <a
+        class="sale-details-button danger"
+        href="{{ url_for('auth.logout') }}"
+    >
+        Logout
+    </a>
+
+</div>
+```
+
+</div>
+
+{% endblock %}

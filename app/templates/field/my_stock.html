@@ -245,13 +245,11 @@
                 <thead>
 
                     <tr>
-
                         <th>ID</th>
                         <th>Medicine</th>
                         <th>Category</th>
                         <th>Unit</th>
                         <th>Quantity</th>
-
                     </tr>
 
                 </thead>
@@ -268,21 +266,21 @@
 
                         <td>
                             <strong>
-                                {{ item.medicine.name }}
+                                {{ item.medicine.name if item.medicine else "-" }}
                             </strong>
                         </td>
 
                         <td>
-                            {{ item.medicine.category or "-" }}
+                            {{ item.medicine.category if item.medicine and item.medicine.category else "-" }}
                         </td>
 
                         <td>
-                            {{ item.medicine.unit }}
+                            {{ item.medicine.unit if item.medicine and item.medicine.unit else "-" }}
                         </td>
 
                         <td>
                             <span class="quantity">
-                                {{ item.quantity }}
+                                {{ item.quantity or 0 }}
                             </span>
                         </td>
 
@@ -292,11 +290,8 @@
 
                     <tr>
 
-                        <td
-                            colspan="5"
-                            class="empty-state"
-                        >
-                            No medicine has been issued to you yet
+                        <td colspan="5" class="empty-state">
+                            No medicine has been issued to you yet.
                         </td>
 
                     </tr>

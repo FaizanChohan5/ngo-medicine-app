@@ -1,0 +1,955 @@
+/* =========================================================
+   NGO MEDICINE MANAGEMENT SYSTEM
+   GLOBAL MOBILE-FIRST APP UI
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f6f8;
+    color: #1f2937;
+
+    line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   MOBILE TOP BAR
+   ========================================================= */
+
+.mobile-topbar {
+    display: none;
+
+    height: 60px;
+
+    background: #1f4e78;
+    color: #ffffff;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 15px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.mobile-topbar-title {
+    font-size: 17px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.mobile-topbar-spacer {
+    width: 42px;
+}
+
+.mobile-menu-button {
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #ffffff;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.mobile-menu-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.app-sidebar {
+    width: 255px;
+    min-height: 100vh;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    z-index: 1100;
+
+    background: #1f4e78;
+    color: #ffffff;
+
+    overflow-y: auto;
+
+    box-shadow:
+        2px 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.app-sidebar-header {
+    padding: 21px 18px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.14);
+}
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-brand-icon {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(255, 255, 255, 0.13);
+
+    border-radius: 10px;
+
+    font-size: 21px;
+}
+
+.app-sidebar-title {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #ffffff;
+}
+
+.app-sidebar-subtitle {
+    margin-top: 2px;
+
+    font-size: 11px;
+
+    color:
+        rgba(255, 255, 255, 0.72);
+}
+
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+   ========================================================= */
+
+.app-sidebar-nav {
+    padding: 14px 10px 24px;
+}
+
+.nav-section-label {
+    padding: 12px 11px 7px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+
+    color:
+        rgba(255, 255, 255, 0.55);
+}
+
+.app-sidebar-nav a {
+    min-height: 44px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 9px 12px;
+
+    margin-bottom: 3px;
+
+    border-radius: 8px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease;
+}
+
+.app-sidebar-nav a:hover {
+    background:
+        rgba(255, 255, 255, 0.10);
+}
+
+.app-sidebar-nav a:active {
+    transform: scale(0.99);
+}
+
+.nav-icon {
+    width: 23px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.nav-divider {
+    height: 1px;
+
+    margin: 15px 5px;
+
+    background:
+        rgba(255, 255, 255, 0.13);
+}
+
+.app-sidebar-nav a.logout {
+    background:
+        rgba(0, 0, 0, 0.12);
+}
+
+.app-sidebar-nav a.logout:hover {
+    background:
+        rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+   ========================================================= */
+
+.app-main {
+    min-height: 100vh;
+
+    margin-left: 255px;
+
+    padding: 26px;
+}
+
+.app-content {
+    width: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.app-page-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.app-page-header h1 {
+    margin: 0;
+
+    font-size: 27px;
+    line-height: 1.2;
+
+    color: #1f2937;
+}
+
+.app-page-header p {
+    margin: 6px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   GENERIC APP CARD
+   ========================================================= */
+
+.app-card {
+    background: #ffffff;
+
+    border:
+        1px solid #e1e5e9;
+
+    border-radius: 11px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.035);
+}
+
+.app-card + .app-card {
+    margin-top: 18px;
+}
+
+.app-card-title {
+    margin: 0 0 7px;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+.app-card-text {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   DASHBOARD GRID
+   ========================================================= */
+
+.app-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 18px;
+}
+
+.app-grid-2 {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.app-grid-3 {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.app-grid-4 {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.app-stat-card {
+    background: #ffffff;
+
+    border:
+        1px solid #e1e5e9;
+
+    border-radius: 11px;
+
+    padding: 18px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.035);
+}
+
+.app-stat-label {
+    color: #6b7280;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.app-stat-value {
+    margin-top: 7px;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.app-button,
+button.app-button {
+    min-height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 9px 16px;
+
+    border: 0;
+    border-radius: 7px;
+
+    background: #1f4e78;
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        transform 0.1s ease,
+        opacity 0.15s ease;
+}
+
+.app-button:hover {
+    opacity: 0.92;
+}
+
+.app-button:active {
+    transform: scale(0.98);
+}
+
+.app-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.app-button-secondary {
+    background: #374151;
+}
+
+.app-button-success {
+    background: #15803d;
+}
+
+.app-button-warning {
+    background: #d97706;
+}
+
+.app-button-danger {
+    background: #dc2626;
+}
+
+.app-button-light {
+    background: #eef2f7;
+    color: #1f2937;
+}
+
+
+/* =========================================================
+   BUTTON GROUP
+   ========================================================= */
+
+.app-button-group {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+.app-form {
+    width: 100%;
+}
+
+.app-form-group {
+    margin-bottom: 17px;
+}
+
+.app-form-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #374151;
+}
+
+.app-form input,
+.app-form select,
+.app-form textarea,
+
+.app-input,
+.app-select,
+.app-textarea {
+    width: 100%;
+
+    min-height: 43px;
+
+    padding: 10px 12px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    outline: none;
+}
+
+.app-form textarea,
+.app-textarea {
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+.app-form input:focus,
+.app-form select:focus,
+.app-form textarea:focus,
+
+.app-input:focus,
+.app-select:focus,
+.app-textarea:focus {
+    border-color: #1f4e78;
+
+    box-shadow:
+        0 0 0 3px rgba(31, 78, 120, 0.10);
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+.table-responsive {
+    width: 100%;
+
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table {
+    width: 100%;
+
+    min-width: 650px;
+
+    border-collapse: collapse;
+}
+
+.table-responsive th,
+.table-responsive td {
+    padding: 11px 12px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+    text-align: left;
+
+    font-size: 13px;
+}
+
+.table-responsive th {
+    background: #f8fafc;
+
+    color: #374151;
+
+    font-weight: 700;
+}
+
+.table-responsive tr:hover td {
+    background: #fafafa;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.app-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 26px;
+
+    padding: 4px 9px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.app-badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.app-badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.app-badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.app-badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+
+/* =========================================================
+   FLASH MESSAGES
+   ========================================================= */
+
+.flash-container {
+    margin-bottom: 18px;
+}
+
+.flash-message {
+    padding: 12px 15px;
+
+    margin-bottom: 9px;
+
+    border-radius: 8px;
+
+    border: 1px solid #c9dceb;
+
+    background: #e8f1f8;
+
+    color: #1f4e78;
+
+    font-size: 14px;
+}
+
+.flash-success {
+    background: #ecfdf3;
+    border-color: #bbf7d0;
+    color: #166534;
+}
+
+.flash-error,
+.flash-danger {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.flash-warning {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+.flash-hide {
+    opacity: 0;
+
+    transition:
+        opacity 0.3s ease;
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.sidebar-overlay {
+    display: none;
+}
+
+
+/* =========================================================
+   INSTALL APP
+   ========================================================= */
+
+[data-install-app] {
+    display: none;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.app-empty {
+    padding: 35px 20px;
+
+    text-align: center;
+
+    color: #6b7280;
+}
+
+.app-empty-icon {
+    font-size: 34px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .mobile-topbar {
+        display: flex;
+    }
+
+    .app-sidebar {
+        width: 275px;
+
+        transform:
+            translateX(-100%);
+
+        transition:
+            transform 0.25s ease;
+
+        box-shadow:
+            5px 0 18px rgba(0, 0, 0, 0.18);
+    }
+
+    .app-sidebar.mobile-open {
+        transform:
+            translateX(0);
+    }
+
+    .sidebar-overlay {
+        display: block;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 1050;
+
+        background:
+            rgba(0, 0, 0, 0.45);
+
+        opacity: 0;
+
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+
+        pointer-events: auto;
+    }
+
+    .app-main {
+        margin-left: 0;
+
+        padding: 18px 15px;
+    }
+
+    .app-grid-4 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .app-grid-3 {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    body.menu-open {
+        overflow: hidden;
+    }
+}
+
+
+/* =========================================================
+   MOBILE PHONES
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .mobile-topbar {
+        height: 56px;
+
+        padding: 0 11px;
+    }
+
+    .mobile-topbar-title {
+        font-size: 15px;
+    }
+
+    .app-main {
+        padding: 13px 12px 25px;
+    }
+
+    .app-page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        margin-bottom: 17px;
+    }
+
+    .app-page-header h1 {
+        font-size: 23px;
+    }
+
+    .app-page-header p {
+        font-size: 13px;
+    }
+
+    .app-card {
+        padding: 15px;
+
+        border-radius: 9px;
+    }
+
+    .app-grid,
+    .app-grid-2,
+    .app-grid-3,
+    .app-grid-4 {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .app-stat-card {
+        padding: 15px;
+    }
+
+    .app-stat-value {
+        font-size: 25px;
+    }
+
+    .app-button,
+    button.app-button {
+        min-height: 44px;
+
+        padding: 10px 14px;
+    }
+
+    .app-button-group {
+        width: 100%;
+    }
+
+    .app-button-group .app-button {
+        flex: 1 1 auto;
+    }
+
+    .app-form input,
+    .app-form select,
+    .app-form textarea,
+
+    .app-input,
+    .app-select,
+    .app-textarea {
+        min-height: 45px;
+
+        font-size: 16px;
+    }
+
+    .table-responsive table {
+        min-width: 620px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    .mobile-topbar-title {
+        font-size: 14px;
+    }
+
+    .app-main {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .app-card {
+        padding: 13px;
+    }
+
+}

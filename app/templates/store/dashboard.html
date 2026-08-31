@@ -1,0 +1,356 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+    Store Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .store-header {
+        background: #1f2937;
+        color: white;
+        padding: 24px 30px;
+    }
+
+    .store-header h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+    }
+
+    .store-header p {
+        margin: 0;
+        color: #d1d5db;
+    }
+
+    .store-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        margin: 0 0 18px;
+        font-size: 22px;
+    }
+
+    .module-grid {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
+        gap: 18px;
+    }
+
+    .module-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 22px;
+        box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
+    }
+
+    .module-icon {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eff6ff;
+        border-radius: 9px;
+        font-size: 21px;
+        margin-bottom: 15px;
+    }
+
+    .module-card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+    }
+
+    .module-card p {
+        margin: 0 0 18px;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .button:hover {
+        background: #1d4ed8;
+    }
+
+    .button.success {
+        background: #15803d;
+    }
+
+    .button.success:hover {
+        background: #166534;
+    }
+
+    .button.warning {
+        background: #d97706;
+    }
+
+    .button.warning:hover {
+        background: #b45309;
+    }
+
+    .button.secondary {
+        background: #374151;
+    }
+
+    .button.secondary:hover {
+        background: #1f2937;
+    }
+
+    .logout-section {
+        margin-top: 35px;
+        padding-top: 22px;
+        border-top: 1px solid #d1d5db;
+    }
+
+    .logout-button {
+        display: inline-block;
+        padding: 10px 16px;
+        background: #dc2626;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .logout-button:hover {
+        background: #b91c1c;
+    }
+
+    @media (max-width: 600px) {
+
+        .store-header {
+            padding: 20px;
+        }
+
+        .store-header h1 {
+            font-size: 23px;
+        }
+
+        .store-container {
+            margin-top: 22px;
+            padding: 0 15px;
+        }
+
+        .module-grid {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="store-header">
+
+    <div class="store-container">
+
+        <h1>
+            Store Dashboard
+        </h1>
+
+        <p>
+            Welcome,
+            <strong>
+                {{ current_user.full_name }}
+            </strong>
+        </p>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="store-container">
+
+    <h2 class="section-title">
+        Store Management
+    </h2>
+
+
+    <div class="module-grid">
+
+
+        <!-- RECEIVE STOCK -->
+
+        <div class="module-card">
+
+            <div class="module-icon">
+                📥
+            </div>
+
+            <h3>
+                Receive Stock
+            </h3>
+
+            <p>
+                Add newly received medicines
+                to the main inventory.
+            </p>
+
+            <a
+                class="button success"
+                href="{{ url_for('inventory.receive_stock') }}"
+            >
+                Receive Stock
+            </a>
+
+        </div>
+
+
+        <!-- MAIN STOCK -->
+
+        <div class="module-card">
+
+            <div class="module-icon">
+                📦
+            </div>
+
+            <h3>
+                Main Stock
+            </h3>
+
+            <p>
+                View the organization's
+                current medicine inventory.
+            </p>
+
+            <a
+                class="button"
+                href="{{ url_for('inventory.dashboard') }}"
+            >
+                View Main Stock
+            </a>
+
+        </div>
+
+
+        <!-- DISPATCH STOCK -->
+
+        <div class="module-card">
+
+            <div class="module-icon">
+                📤
+            </div>
+
+            <h3>
+                Dispatch Stock
+            </h3>
+
+            <p>
+                Dispatch medicines from main
+                stock to field persons.
+            </p>
+
+            <a
+                class="button warning"
+                href="{{ url_for('inventory.dispatch_stock') }}"
+            >
+                Dispatch Stock
+            </a>
+
+        </div>
+
+
+        <!-- FIELD PERSON STOCK -->
+
+        <div class="module-card">
+
+            <div class="module-icon">
+                👤
+            </div>
+
+            <h3>
+                Field Person Stock
+            </h3>
+
+            <p>
+                Review stock currently assigned
+                to field persons.
+            </p>
+
+            <a
+                class="button secondary"
+                href="{{ url_for('inventory.dashboard') }}"
+            >
+                View Stock
+            </a>
+
+        </div>
+
+
+        <!-- STOCK HISTORY -->
+
+        <div class="module-card">
+
+            <div class="module-icon">
+                📋
+            </div>
+
+            <h3>
+                Stock History
+            </h3>
+
+            <p>
+                Review receiving, dispatch
+                and other stock transactions.
+            </p>
+
+            <a
+                class="button secondary"
+                href="{{ url_for('inventory.history') }}"
+            >
+                View History
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         LOGOUT
+    ====================================================== -->
+
+    <div class="logout-section">
+
+        <a
+            class="logout-button"
+            href="{{ url_for('auth.logout') }}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</main>
+
+{% endblock %}

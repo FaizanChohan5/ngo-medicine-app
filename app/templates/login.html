@@ -8,7 +8,55 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Login - NGO Medicine Management System</title>
+    <!-- =====================================================
+         PWA / MOBILE SETTINGS
+         ===================================================== -->
+
+    <meta name="theme-color"
+          content="#1f4e78">
+
+    <meta name="mobile-web-app-capable"
+          content="yes">
+
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="default">
+
+    <meta name="apple-mobile-web-app-title"
+          content="NGO Medicine">
+
+    <!-- =====================================================
+         PWA MANIFEST
+         ===================================================== -->
+
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}"
+    >
+
+    <!-- =====================================================
+         APPLE ICON
+         ===================================================== -->
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='icons/icon-192.png') }}"
+    >
+
+    <!-- =====================================================
+         APP CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/app.css') }}"
+    >
+
+    <title>
+        Login - NGO Medicine Management System
+    </title>
 
     <style>
 
@@ -147,7 +195,10 @@
 
                     {% for message in messages %}
 
-                        <div class="message">
+                        <div
+                            class="message"
+                            data-auto-dismiss
+                        >
                             {{ message }}
                         </div>
 
@@ -172,6 +223,7 @@
                         id="username"
                         name="username"
                         placeholder="Enter your username"
+                        autocomplete="username"
                         required
                     >
 
@@ -189,6 +241,7 @@
                         id="password"
                         name="password"
                         placeholder="Enter your password"
+                        autocomplete="current-password"
                         required
                     >
 
@@ -216,6 +269,15 @@
         </div>
 
     </div>
+
+
+    <!-- =====================================================
+         APP JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}">
+    </script>
 
 
 </body>

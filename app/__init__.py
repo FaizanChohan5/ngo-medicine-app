@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from app.models import db
 from app.routes.auth import auth, login_manager
@@ -8,6 +8,7 @@ from app.routes.store import store
 from app.routes.field import field
 from app.routes.medicine import medicine
 from app.routes.inventory import inventory
+from app.routes.api import api
 
 
 def create_app():
@@ -18,7 +19,15 @@ def create_app():
     # APPLICATION CONFIGURATION
     # ============================================================
 
-    app.config["SECRET_KEY"] = "ngo-medicine-secret-key-change-later"
+    app.config["SECRET_KEY"] = "b134cd22b05a8711d178dfd672427e5d4095584f8eb5f7233389c7a0efae350d"
+
+    # Session cookie security
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+
+    # Keep False while using local HTTP.
+    # Change to True after HTTPS deployment.
+    app.config["SESSION_COOKIE_SECURE"] = False
 
     # ============================================================
     # DATABASE CONFIGURATION
@@ -52,6 +61,7 @@ def create_app():
     app.register_blueprint(field)
     app.register_blueprint(medicine)
     app.register_blueprint(inventory)
+    app.register_blueprint(api)
 
     # ============================================================
     # CREATE DATABASE TABLES
@@ -80,8 +90,6 @@ def create_app():
     @login_required
     def dashboard():
 
-        from flask_login import current_user
-
         if current_user.role == "admin":
 
             return redirect(
@@ -101,5 +109,9 @@ def create_app():
             )
 
         return "Invalid user role", 403
+
+    # ============================================================
+    # RETURN APPLICATION
+    # ============================================================
 
     return app

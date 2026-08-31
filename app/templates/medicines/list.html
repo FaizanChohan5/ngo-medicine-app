@@ -1,486 +1,314 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿{% extends "base.html" %}
 
-<head>
+{% block title %}
+Medicines
+{% endblock %}
 
-    <meta charset="UTF-8">
+{% block head %}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
+<style>
 
-    <title>Medicine Management | NGO Medicine Management System</title>
+    .medicine-container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
 
-    <style>
+    .medicine-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+    }
 
-        * {
-            box-sizing: border-box;
+    .medicine-title {
+        margin: 0;
+        font-size: 24px;
+        color: #111827;
+    }
+
+    .medicine-description {
+        margin: 6px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .medicine-button {
+        display: inline-block;
+        padding: 10px 16px;
+        border-radius: 7px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+    }
+
+    .medicine-button.primary {
+        background: #2563eb;
+    }
+
+    .medicine-button.primary:hover {
+        background: #1d4ed8;
+    }
+
+    .medicine-flash {
+        margin-bottom: 20px;
+        padding: 13px 15px;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #166534;
+        border-radius: 7px;
+    }
+
+    .medicine-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .medicine-card-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .medicine-card-header h2 {
+        margin: 0;
+        font-size: 19px;
+        color: #111827;
+    }
+
+    .medicine-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .medicine-table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: collapse;
+    }
+
+    .medicine-table th {
+        padding: 13px 15px;
+        text-align: left;
+        background: #f9fafb;
+        color: #374151;
+        font-size: 13px;
+        border-bottom: 1px solid #e5e7eb;
+        white-space: nowrap;
+    }
+
+    .medicine-table td {
+        padding: 13px 15px;
+        font-size: 14px;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+    }
+
+    .medicine-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .medicine-table tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    .medicine-name {
+        font-weight: 600;
+        color: #111827;
+    }
+
+    .medicine-price {
+        font-weight: 600;
+        color: #15803d;
+        white-space: nowrap;
+    }
+
+    .medicine-status {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .medicine-status.active {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .medicine-status.inactive {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .medicine-edit {
+        display: inline-block;
+        padding: 7px 12px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .medicine-edit:hover {
+        background: #1d4ed8;
+    }
+
+    .medicine-empty {
+        text-align: center;
+        padding: 40px 20px !important;
+        color: #6b7280;
+    }
+
+    .medicine-empty strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #374151;
+        font-size: 16px;
+    }
+
+    .medicine-navigation {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 22px;
+    }
+
+    .medicine-navigation a {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .medicine-navigation a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+
+        .medicine-container {
+            margin: 20px auto;
+            padding: 0 12px;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #1f2937;
+        .medicine-header {
+            align-items: stretch;
+            flex-direction: column;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
-
-        .header {
-            background: #1f2937;
-            color: white;
-            padding: 24px 30px;
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header h1 {
-            margin: 0 0 8px;
-            font-size: 28px;
-        }
-
-        .header p {
-            margin: 0;
-            color: #d1d5db;
-            font-size: 14px;
-        }
-
-        /* =========================
-           CONTAINER
-        ========================= */
-
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* =========================
-           PAGE TOP
-        ========================= */
-
-        .page-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .page-title {
-            margin: 0;
-            font-size: 22px;
-            color: #111827;
-        }
-
-        .page-description {
-            margin: 6px 0 0;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        /* =========================
-           BUTTONS
-        ========================= */
-
-        .button {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 6px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .button.primary {
-            background: #2563eb;
-        }
-
-        .button.primary:hover {
-            background: #1d4ed8;
-        }
-
-        .button.secondary {
-            background: #374151;
-        }
-
-        .button.secondary:hover {
-            background: #1f2937;
-        }
-
-        .button.danger {
-            background: #dc2626;
-        }
-
-        .button.danger:hover {
-            background: #b91c1c;
-        }
-
-        .edit-button {
-            display: inline-block;
-            padding: 7px 12px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .edit-button:hover {
-            background: #1d4ed8;
-        }
-
-        /* =========================
-           FLASH MESSAGE
-        ========================= */
-
-        .flash {
-            margin-bottom: 20px;
-            padding: 13px 15px;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            color: #166534;
-            border-radius: 6px;
-        }
-
-        /* =========================
-           TABLE CARD
-        ========================= */
-
-        .table-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-        }
-
-        .table-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .table-header h2 {
-            margin: 0;
-            font-size: 19px;
-            color: #111827;
-        }
-
-        .table-wrapper {
+        .medicine-header .medicine-button {
             width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 750px;
-        }
-
-        thead {
-            background: #f9fafb;
-        }
-
-        th {
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 700;
-            color: #374151;
-            border-bottom: 1px solid #e5e7eb;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 14px 16px;
-            font-size: 14px;
-            border-bottom: 1px solid #f0f0f0;
-            vertical-align: middle;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        .medicine-name {
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .price {
-            font-weight: 600;
-            color: #15803d;
-            white-space: nowrap;
-        }
-
-        /* =========================
-           STATUS
-        ========================= */
-
-        .status {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .status.active {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status.inactive {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* =========================
-           EMPTY STATE
-        ========================= */
-
-        .empty {
             text-align: center;
-            padding: 40px 20px;
-            color: #6b7280;
         }
 
-        .empty strong {
-            display: block;
-            margin-bottom: 6px;
-            color: #374151;
-            font-size: 16px;
+        .medicine-title {
+            font-size: 21px;
         }
 
-        /* =========================
-           NAVIGATION
-        ========================= */
-
-        .navigation {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 25px;
+        .medicine-card-header {
+            padding: 16px;
         }
 
-        .navigation a {
-            color: #2563eb;
-            text-decoration: none;
-            font-size: 14px;
+        .medicine-table th,
+        .medicine-table td {
+            padding: 12px;
         }
 
-        .navigation a:hover {
-            text-decoration: underline;
-        }
+    }
 
-        /* =========================
-           FOOTER
-        ========================= */
+</style>
 
-        .footer {
-            margin-top: 50px;
-            padding: 20px;
-            background: #1f2937;
-            color: #d1d5db;
-            text-align: center;
-            font-size: 13px;
-        }
+{% endblock %}
 
-        .footer p {
-            margin: 0 0 8px;
-        }
+{% block content %}
 
-        .footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 600px) {
-
-            .header {
-                padding: 20px;
-            }
-
-            .header h1 {
-                font-size: 23px;
-            }
-
-            .container {
-                margin: 20px auto;
-                padding: 0 12px;
-            }
-
-            .page-top {
-                align-items: stretch;
-            }
-
-            .page-top .button {
-                width: 100%;
-                text-align: center;
-            }
-
-            .page-title {
-                font-size: 20px;
-            }
-
-            th,
-            td {
-                padding: 12px;
-            }
-
-        }
-
-    </style>
-
-</head>
+<main class="medicine-container">
 
 
-<body>
+<div class="medicine-header">
 
+    <div>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+        <h1 class="medicine-title">
+            Medicines
+        </h1>
 
-<header class="header">
-
-    <div class="header-content">
-
-        <h1>Medicine Management</h1>
-
-        <p>
-            Manage medicines, categories, units, prices and availability
+        <p class="medicine-description">
+            View and manage all medicines in the system.
         </p>
 
     </div>
 
-</header>
+    {% if current_user.role == "admin" %}
+
+        <a
+            class="medicine-button primary"
+            href="{{ url_for('medicine.add_medicine') }}"
+        >
+            + Add Medicine
+        </a>
+
+    {% endif %}
+
+</div>
 
 
-<!-- =========================================================
-     MAIN CONTENT
-========================================================= -->
+{% with messages = get_flashed_messages() %}
 
-<main class="container">
+    {% if messages %}
 
+        {% for message in messages %}
 
-    <!-- PAGE TOP -->
+            <div class="medicine-flash">
+                <strong>{{ message }}</strong>
+            </div>
 
-    <div class="page-top">
+        {% endfor %}
 
-        <div>
+    {% endif %}
 
-            <h2 class="page-title">
-                Medicines
-            </h2>
-
-            <p class="page-description">
-                View and manage all medicines in the system
-            </p>
-
-        </div>
+{% endwith %}
 
 
-        {% if current_user.role == "admin" %}
+<div class="medicine-card">
 
-            <a
-                class="button primary"
-                href="{{ url_for('medicine.add_medicine') }}"
-            >
-                + Add Medicine
-            </a>
+    <div class="medicine-card-header">
 
-        {% endif %}
+        <h2>
+            Medicine List
+        </h2>
 
     </div>
 
+    <div class="medicine-table-wrapper">
 
-    <!-- FLASH MESSAGES -->
+        <table class="medicine-table">
 
-    {% with messages = get_flashed_messages() %}
+            <thead>
 
-        {% if messages %}
+                <tr>
+                    <th>ID</th>
+                    <th>Medicine</th>
+                    <th>Category</th>
+                    <th>Unit</th>
+                    <th>Default Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
 
-            {% for message in messages %}
+            </thead>
 
-                <div class="flash">
-                    <strong>{{ message }}</strong>
-                </div>
+            <tbody>
 
-            {% endfor %}
-
-        {% endif %}
-
-    {% endwith %}
-
-
-    <!-- =====================================================
-         MEDICINE TABLE
-    ====================================================== -->
-
-    <div class="table-card">
-
-        <div class="table-header">
-
-            <h2>
-                Medicine List
-            </h2>
-
-        </div>
-
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-
-                        <th>Medicine</th>
-
-                        <th>Category</th>
-
-                        <th>Unit</th>
-
-                        <th>Default Price</th>
-
-                        <th>Status</th>
-
-                        <th>Action</th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    {% for medicine in medicines %}
+                {% for medicine in medicines %}
 
                     <tr>
 
@@ -488,38 +316,33 @@
                             {{ medicine.id }}
                         </td>
 
-
                         <td class="medicine-name">
                             {{ medicine.name }}
                         </td>
-
 
                         <td>
                             {{ medicine.category or "-" }}
                         </td>
 
-
                         <td>
                             {{ medicine.unit }}
                         </td>
 
-
-                        <td class="price">
+                        <td class="medicine-price">
                             Rs {{ "%.2f"|format(medicine.price or 0) }}
                         </td>
-
 
                         <td>
 
                             {% if medicine.is_active %}
 
-                                <span class="status active">
+                                <span class="medicine-status active">
                                     Active
                                 </span>
 
                             {% else %}
 
-                                <span class="status inactive">
+                                <span class="medicine-status inactive">
                                     Inactive
                                 </span>
 
@@ -527,13 +350,12 @@
 
                         </td>
 
-
                         <td>
 
                             {% if current_user.role == "admin" %}
 
                                 <a
-                                    class="edit-button"
+                                    class="medicine-edit"
                                     href="{{ url_for(
                                         'medicine.edit_medicine',
                                         medicine_id=medicine.id
@@ -552,74 +374,50 @@
 
                     </tr>
 
-
-                    {% else %}
+                {% else %}
 
                     <tr>
 
                         <td
                             colspan="7"
-                            class="empty"
+                            class="medicine-empty"
                         >
 
                             <strong>
                                 No medicines found
                             </strong>
 
-                            Add a medicine to begin managing your inventory.
+                            Add a medicine to begin managing
+                            your inventory.
 
                         </td>
 
                     </tr>
 
-                    {% endfor %}
+                {% endfor %}
 
-                </tbody>
+            </tbody>
 
-            </table>
-
-        </div>
+        </table>
 
     </div>
 
-
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
-
-    <div class="navigation">
-
-        <a href="{{ url_for('admin.dashboard') }}">
-            ← Back to Admin Dashboard
-        </a>
-
-        <a href="{{ url_for('auth.logout') }}">
-            Logout
-        </a>
-
-    </div>
+</div>
 
 
-</main>
+<div class="medicine-navigation">
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer class="footer">
-
-    <p>
-        NGO Medicine Management System
-    </p>
+    <a href="{{ url_for('admin.dashboard') }}">
+        ← Admin Dashboard
+    </a>
 
     <a href="{{ url_for('auth.logout') }}">
         Logout
     </a>
 
-</footer>
+</div>
 
 
-</body>
+</main>
 
-</html>
+{% endblock %}

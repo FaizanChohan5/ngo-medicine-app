@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>My Shops</title>
+    <title>My Shops | NGO Medicine Management System</title>
 
     <style>
 
@@ -18,10 +18,14 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f4f6f8;
-            color: #222;
+            color: #1f2937;
         }
+
+        /* =========================
+           HEADER
+        ========================= */
 
         .header {
             background: #1f2937;
@@ -29,20 +33,39 @@
             padding: 24px 30px;
         }
 
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .header h1 {
-            margin: 0 0 8px 0;
+            margin: 0 0 8px;
+            font-size: 28px;
         }
 
         .header p {
             margin: 0;
             color: #d1d5db;
+            font-size: 15px;
         }
 
+        .header strong {
+            color: white;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
         }
+
+        /* =========================
+           TOP BAR
+        ========================= */
 
         .top-bar {
             display: flex;
@@ -55,16 +78,19 @@
 
         .search-box {
             display: flex;
+            align-items: center;
             gap: 8px;
             flex-wrap: wrap;
         }
 
         input[type="text"] {
+            width: 280px;
+            max-width: 100%;
             padding: 10px 12px;
-            width: 260px;
             border: 1px solid #d1d5db;
             border-radius: 6px;
             font-size: 14px;
+            background: white;
         }
 
         input[type="text"]:focus {
@@ -72,6 +98,10 @@
             border-color: #2563eb;
             box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
         }
+
+        /* =========================
+           BUTTONS
+        ========================= */
 
         .button {
             display: inline-block;
@@ -82,7 +112,9 @@
             color: white;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s ease;
         }
 
         .button:hover {
@@ -97,9 +129,24 @@
             background: #166534;
         }
 
+        .button-secondary {
+            background: #374151;
+        }
+
+        .button-secondary:hover {
+            background: #1f2937;
+        }
+
+        .button-danger {
+            background: #dc2626;
+        }
+
+        .button-danger:hover {
+            background: #b91c1c;
+        }
+
         .clear-link {
-            display: inline-block;
-            padding: 10px 12px;
+            padding: 10px 8px;
             color: #374151;
             text-decoration: none;
             font-size: 14px;
@@ -109,25 +156,38 @@
             text-decoration: underline;
         }
 
-        .flash {
+        /* =========================
+           FLASH MESSAGES
+        ========================= */
+
+        .messages {
             margin-bottom: 20px;
+        }
+
+        .flash {
             padding: 12px 15px;
+            margin-bottom: 8px;
             background: #ecfdf5;
             border: 1px solid #a7f3d0;
             color: #166534;
             border-radius: 6px;
+            font-size: 14px;
         }
+
+        /* =========================
+           CARD
+        ========================= */
 
         .card {
             background: white;
             border: 1px solid #e5e7eb;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
             overflow: hidden;
         }
 
         .card-header {
-            padding: 18px 20px;
+            padding: 20px;
             border-bottom: 1px solid #e5e7eb;
         }
 
@@ -136,7 +196,17 @@
             font-size: 20px;
         }
 
-        .table-container {
+        .card-header p {
+            margin: 6px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
             width: 100%;
             overflow-x: auto;
         }
@@ -144,25 +214,27 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 750px;
         }
 
         th {
-            background: #f9fafb;
+            padding: 14px 16px;
+            background: #f3f4f6;
             color: #374151;
-            font-size: 13px;
             text-align: left;
-            padding: 13px 15px;
+            font-size: 13px;
+            font-weight: 700;
             border-bottom: 1px solid #e5e7eb;
             white-space: nowrap;
         }
 
         td {
-            padding: 14px 15px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 14px 16px;
             font-size: 14px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        tr:last-child td {
+        tbody tr:last-child td {
             border-bottom: none;
         }
 
@@ -171,18 +243,24 @@
         }
 
         .shop-name {
-            font-weight: bold;
+            font-weight: 700;
             color: #111827;
+        }
+
+        .shop-id {
+            font-weight: 600;
+            color: #6b7280;
         }
 
         .view-button {
             display: inline-block;
-            padding: 7px 11px;
+            padding: 7px 12px;
             background: #2563eb;
             color: white;
             text-decoration: none;
             border-radius: 5px;
             font-size: 13px;
+            font-weight: 600;
             white-space: nowrap;
         }
 
@@ -192,47 +270,37 @@
 
         .empty {
             text-align: center;
-            padding: 30px;
+            padding: 35px 20px;
             color: #6b7280;
         }
 
+        /* =========================
+           NAVIGATION
+        ========================= */
+
         .navigation {
-            margin-top: 25px;
             display: flex;
-            gap: 15px;
             flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
         }
 
-        .navigation a {
-            color: #2563eb;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .navigation a:hover {
-            text-decoration: underline;
-        }
+        /* =========================
+           FOOTER
+        ========================= */
 
         .footer {
-            margin-top: 40px;
+            margin-top: 50px;
             padding: 20px;
             background: #1f2937;
-            color: white;
+            color: #d1d5db;
             text-align: center;
+            font-size: 13px;
         }
 
-        .footer p {
-            margin: 0 0 8px 0;
-        }
-
-        .footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 600px) {
 
@@ -240,9 +308,13 @@
                 padding: 20px;
             }
 
+            .header h1 {
+                font-size: 23px;
+            }
+
             .container {
-                margin: 20px auto;
-                padding: 0 12px;
+                margin-top: 22px;
+                padding: 0 15px;
             }
 
             .top-bar {
@@ -261,7 +333,20 @@
                 flex: 1;
             }
 
-            .button-success {
+            .clear-link {
+                text-align: center;
+            }
+
+            .top-bar > .button-success {
+                width: 100%;
+                text-align: center;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .navigation .button {
                 width: 100%;
                 text-align: center;
             }
@@ -274,21 +359,36 @@
 
 <body>
 
-<div class="header">
+<!-- =========================
+     HEADER
+========================= -->
 
-    <h1>My Shops</h1>
+<header class="header">
 
-    <p>
-        Field Person:
-        <strong>
-            {{ field_person.user.full_name if field_person and field_person.user else "-" }}
-        </strong>
-    </p>
+    <div class="header-content">
 
-</div>
+        <h1>My Shops</h1>
+
+        <p>
+            Field Person:
+            <strong>
+                {{ field_person.user.full_name if field_person and field_person.user else "-" }}
+            </strong>
+        </p>
+
+    </div>
+
+</header>
 
 
-<div class="container">
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+
+<main class="container">
+
+
+    <!-- TOP ACTIONS -->
 
     <div class="top-bar">
 
@@ -301,7 +401,7 @@
             <input
                 type="text"
                 name="search"
-                placeholder="Search shop"
+                placeholder="Search shop by name"
                 value="{{ search or '' }}"
             >
 
@@ -336,22 +436,30 @@
     </div>
 
 
+    <!-- FLASH MESSAGES -->
+
     {% with messages = get_flashed_messages() %}
 
         {% if messages %}
 
-            {% for message in messages %}
+            <div class="messages">
 
-                <div class="flash">
-                    {{ message }}
-                </div>
+                {% for message in messages %}
 
-            {% endfor %}
+                    <div class="flash">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
 
         {% endif %}
 
     {% endwith %}
 
+
+    <!-- SHOPS TABLE -->
 
     <div class="card">
 
@@ -361,27 +469,29 @@
                 Registered Shops
             </h2>
 
+            <p>
+                Shops currently assigned to you
+            </p>
+
         </div>
 
 
-        <div class="table-container">
+        <div class="table-wrapper">
 
             <table>
 
                 <thead>
 
                     <tr>
-
                         <th>ID</th>
                         <th>Shop Name</th>
                         <th>Owner</th>
                         <th>Phone</th>
+                        <th>Address</th>
                         <th>Action</th>
-
                     </tr>
 
                 </thead>
-
 
                 <tbody>
 
@@ -389,7 +499,7 @@
 
                     <tr>
 
-                        <td>
+                        <td class="shop-id">
                             {{ shop.id }}
                         </td>
 
@@ -403,6 +513,10 @@
 
                         <td>
                             {{ shop.phone or "-" }}
+                        </td>
+
+                        <td>
+                            {{ shop.address or "-" }}
                         </td>
 
                         <td>
@@ -426,14 +540,14 @@
                     <tr>
 
                         <td
-                            colspan="5"
+                            colspan="6"
                             class="empty"
                         >
 
                             {% if search %}
 
                                 No shops found for
-                                "<strong>{{ search }}</strong>"
+                                "<strong>{{ search }}</strong>".
 
                             {% else %}
 
@@ -456,32 +570,45 @@
     </div>
 
 
+    <!-- NAVIGATION -->
+
     <div class="navigation">
 
-        <a href="{{ url_for('field.dashboard') }}">
+        <a
+            class="button button-secondary"
+            href="{{ url_for('field.dashboard') }}"
+        >
             ← Back to Dashboard
         </a>
 
-        <a href="{{ url_for('field.my_stock') }}">
+        <a
+            class="button button-secondary"
+            href="{{ url_for('field.my_stock') }}"
+        >
             My Stock
+        </a>
+
+        <a
+            class="button button-danger"
+            href="{{ url_for('auth.logout') }}"
+        >
+            Logout
         </a>
 
     </div>
 
-</div>
+</main>
 
 
-<div class="footer">
+<!-- =========================
+     FOOTER
+========================= -->
 
-    <p>
-        NGO Medicine Management System
-    </p>
+<footer class="footer">
 
-    <a href="{{ url_for('auth.logout') }}">
-        Logout
-    </a>
+    NGO Medicine Management System
 
-</div>
+</footer>
 
 </body>
 

@@ -1,222 +1,250 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿{% extends "base.html" %}
 
-<head>
+{% block title %}
+    Admin Reports
+{% endblock %}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block head %}
 
-    <title>Admin Reports</title>
+<style>
 
-    <style>
+    .reports-container {
+        max-width: 1250px;
+        margin: 30px auto;
+        padding: 0 20px;
+    }
 
-        * {
-            box-sizing: border-box;
+    .reports-header {
+        background: #1f2937;
+        color: white;
+        padding: 22px 30px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+
+    .reports-header h1 {
+        margin: 0 0 6px 0;
+    }
+
+    .reports-header p {
+        margin: 0;
+        color: #d1d5db;
+    }
+
+    .reports-top-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .reports-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .reports-button:hover {
+        background: #1d4ed8;
+    }
+
+    .reports-button.secondary {
+        background: #374151;
+    }
+
+    .reports-button.secondary:hover {
+        background: #1f2937;
+    }
+
+    .reports-button.success {
+        background: #15803d;
+    }
+
+    .reports-button.success:hover {
+        background: #166534;
+    }
+
+    .reports-section {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .reports-section-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        background: #f9fafb;
+    }
+
+    .reports-section-header h2 {
+        margin: 0;
+        font-size: 19px;
+    }
+
+    .reports-section-header p {
+        margin: 6px 0 0 0;
+        color: #6b7280;
+        font-size: 13px;
+    }
+
+    .reports-table-container {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .reports-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    .reports-table th,
+    .reports-table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .reports-table th {
+        background: #1f4e78;
+        color: white;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .reports-table tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    .reports-status-active {
+        display: inline-block;
+        padding: 4px 9px;
+        border-radius: 20px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .reports-status-inactive {
+        display: inline-block;
+        padding: 4px 9px;
+        border-radius: 20px;
+        background: #fee2e2;
+        color: #991b1b;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .reports-transaction-received {
+        color: #166534;
+        font-weight: bold;
+    }
+
+    .reports-transaction-dispatched {
+        color: #b45309;
+        font-weight: bold;
+    }
+
+    .reports-empty {
+        padding: 25px;
+        text-align: center;
+        color: #6b7280;
+    }
+
+    .reports-footer {
+        margin-top: 40px;
+        padding: 20px;
+        background: #1f2937;
+        color: white;
+        text-align: center;
+    }
+
+    .reports-footer p {
+        margin: 0 0 8px 0;
+    }
+
+    .reports-footer a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .reports-footer a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 700px) {
+
+        .reports-container {
+            margin: 20px auto;
+            padding: 0 12px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        .header {
-            background: #1f2937;
-            color: white;
-            padding: 22px 30px;
-        }
-
-        .header h1 {
-            margin: 0 0 6px 0;
-        }
-
-        .header p {
-            margin: 0;
-            color: #d1d5db;
-        }
-
-        .container {
-            max-width: 1250px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .top-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 15px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .button:hover {
-            background: #1d4ed8;
-        }
-
-        .secondary {
-            background: #374151;
-        }
-
-        .secondary:hover {
-            background: #1f2937;
-        }
-
-        .success {
-            background: #15803d;
-        }
-
-        .success:hover {
-            background: #166534;
-        }
-
-        .section {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-        }
-
-        .section-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid #e5e7eb;
-            background: #f9fafb;
-        }
-
-        .section-header h2 {
-            margin: 0;
-            font-size: 19px;
-        }
-
-        .section-header p {
-            margin: 6px 0 0 0;
-            color: #6b7280;
-            font-size: 13px;
-        }
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-
-        th,
-        td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        th {
-            background: #1f4e78;
-            color: white;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        .status-active {
-            display: inline-block;
-            padding: 4px 9px;
-            border-radius: 20px;
-            background: #dcfce7;
-            color: #166534;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status-inactive {
-            display: inline-block;
-            padding: 4px 9px;
-            border-radius: 20px;
-            background: #fee2e2;
-            color: #991b1b;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .transaction-received {
-            color: #166534;
-            font-weight: bold;
-        }
-
-        .transaction-dispatched {
-            color: #b45309;
-            font-weight: bold;
-        }
-
-        .empty {
-            padding: 25px;
-            text-align: center;
-            color: #6b7280;
-        }
-
-        .footer {
-            margin-top: 40px;
+        .reports-header {
             padding: 20px;
-            background: #1f2937;
-            color: white;
+        }
+
+        .reports-top-actions {
+            flex-direction: column;
+        }
+
+        .reports-top-actions .reports-button {
+            width: 100%;
             text-align: center;
         }
 
-        .footer p {
-            margin: 0 0 8px 0;
-        }
+    }
 
-        .footer a {
-            color: white;
-            text-decoration: none;
-        }
+</style>
 
-    </style>
+{% endblock %}
 
-</head>
 
-<body>
+{% block content %}
 
-<div class="header">
+<div class="reports-container">
 
-    <h1>Reports</h1>
 
-    <p>
-        NGO Medicine Management System
-    </p>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-</div>
+    <div class="reports-header">
 
-<div class="container">
+        <h1>
+            Reports
+        </h1>
 
-    <div class="top-actions">
+        <p>
+            NGO Medicine Management System
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         TOP ACTIONS
+    ====================================================== -->
+
+    <div class="reports-top-actions">
 
         <a
-            class="button secondary"
+            class="reports-button secondary"
             href="{{ url_for('admin.dashboard') }}"
         >
             ← Admin Dashboard
         </a>
 
         <a
-            class="button success"
+            class="reports-button success"
             href="{{ url_for('admin.export_reports') }}"
         >
             Download Excel Report
@@ -225,96 +253,115 @@
     </div>
 
 
-    <!-- MEDICINE STOCK -->
+    <!-- =====================================================
+         MEDICINE STOCK REPORT
+    ====================================================== -->
 
-    <div class="section">
+    <div class="reports-section">
 
-        <div class="section-header">
-            <h2>Medicine Stock Report</h2>
-            <p>Current medicine inventory and status</p>
+        <div class="reports-section-header">
+
+            <h2>
+                Medicine Stock Report
+            </h2>
+
+            <p>
+                Current medicine inventory and status
+            </p>
+
         </div>
 
-        <div class="table-container">
+        <div class="reports-table-container">
 
             {% if medicines %}
 
-            <table>
+                <table class="reports-table">
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Medicine</th>
-                        <th>Category</th>
-                        <th>Unit</th>
-                        <th>Current Stock</th>
-                        <th>Default Price</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+                    <thead>
 
-                <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Medicine</th>
+                            <th>Category</th>
+                            <th>Unit</th>
+                            <th>Current Stock</th>
+                            <th>Default Price</th>
+                            <th>Status</th>
+                        </tr>
 
-                {% for medicine in medicines %}
+                    </thead>
 
-                    <tr>
+                    <tbody>
 
-                        <td>
-                            {{ medicine.id }}
-                        </td>
+                    {% for medicine in medicines %}
 
-                        <td>
-                            <strong>
-                                {{ medicine.name }}
-                            </strong>
-                        </td>
+                        <tr>
 
-                        <td>
-                            {{ medicine.category or "-" }}
-                        </td>
+                            <td>
+                                {{ medicine.id }}
+                            </td>
 
-                        <td>
-                            {{ medicine.unit or "-" }}
-                        </td>
+                            <td>
+                                <strong>
+                                    {{ medicine.name }}
+                                </strong>
+                            </td>
 
-                        <td>
-                            {{ medicine.current_stock if medicine.current_stock is defined else 0 }}
-                        </td>
+                            <td>
+                                {{ medicine.category or "-" }}
+                            </td>
 
-                        <td>
-                            Rs {{ "%.2f"|format(medicine.price or 0) }}
-                        </td>
+                            <td>
+                                {{ medicine.unit or "-" }}
+                            </td>
 
-                        <td>
+                            <td>
+                                {{
+                                    medicine.current_stock
+                                    if medicine.current_stock is defined
+                                    else 0
+                                }}
+                            </td>
 
-                            {% if medicine.is_active %}
+                            <td>
+                                Rs {{
+                                    "%.2f"|format(
+                                        medicine.price or 0
+                                    )
+                                }}
+                            </td>
 
-                                <span class="status-active">
-                                    Active
-                                </span>
+                            <td>
 
-                            {% else %}
+                                {% if medicine.is_active %}
 
-                                <span class="status-inactive">
-                                    Inactive
-                                </span>
+                                    <span class="reports-status-active">
+                                        Active
+                                    </span>
 
-                            {% endif %}
+                                {% else %}
 
-                        </td>
+                                    <span class="reports-status-inactive">
+                                        Inactive
+                                    </span>
 
-                    </tr>
+                                {% endif %}
 
-                {% endfor %}
+                            </td>
 
-                </tbody>
+                        </tr>
 
-            </table>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             {% else %}
 
-            <div class="empty">
-                No medicines found.
-            </div>
+                <div class="reports-empty">
+                    No medicines found.
+                </div>
 
             {% endif %}
 
@@ -323,82 +370,120 @@
     </div>
 
 
-    <!-- SALES -->
+    <!-- =====================================================
+         SALES REPORT
+    ====================================================== -->
 
-    <div class="section">
+    <div class="reports-section">
 
-        <div class="section-header">
-            <h2>Sales Report</h2>
-            <p>All medicine sales recorded by field persons</p>
+        <div class="reports-section-header">
+
+            <h2>
+                Sales Report
+            </h2>
+
+            <p>
+                All medicine sales recorded by field persons
+            </p>
+
         </div>
 
-        <div class="table-container">
+        <div class="reports-table-container">
 
             {% if sales %}
 
-            <table>
+                <table class="reports-table">
 
-                <thead>
-                    <tr>
-                        <th>Sale ID</th>
-                        <th>Shop</th>
-                        <th>Field Person</th>
-                        <th>Total Amount</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
+                    <thead>
 
-                <tbody>
+                        <tr>
+                            <th>Sale ID</th>
+                            <th>Shop</th>
+                            <th>Field Person</th>
+                            <th>Total Amount</th>
+                            <th>Date</th>
+                        </tr>
 
-                {% for sale in sales %}
+                    </thead>
 
-                    <tr>
+                    <tbody>
 
-                        <td>
-                            <strong>
-                                {{ sale.id }}
-                            </strong>
-                        </td>
+                    {% for sale in sales %}
 
-                        <td>
-                            {{ sale.shop.name if sale.shop else "-" }}
-                        </td>
+                        <tr>
 
-                        <td>
-                            {% if sale.field_person and sale.field_person.user %}
-                                {{ sale.field_person.user.full_name }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
+                            <td>
+                                <strong>
+                                    {{ sale.id }}
+                                </strong>
+                            </td>
 
-                        <td>
-                            <strong>
-                                Rs {{ "%.2f"|format(sale.total_amount or 0) }}
-                            </strong>
-                        </td>
+                            <td>
+                                {{
+                                    sale.shop.name
+                                    if sale.shop
+                                    else "-"
+                                }}
+                            </td>
 
-                        <td>
-                            {% if sale.created_at %}
-                                {{ sale.created_at.strftime("%d-%b-%Y %I:%M %p") }}
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </td>
+                            <td>
 
-                    </tr>
+                                {% if sale.field_person
+                                      and sale.field_person.user %}
 
-                {% endfor %}
+                                    {{ sale.field_person.user.full_name }}
 
-                </tbody>
+                                {% else %}
 
-            </table>
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    Rs {{
+                                        "%.2f"|format(
+                                            sale.total_amount or 0
+                                        )
+                                    }}
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {% if sale.created_at %}
+
+                                    {{
+                                        sale.created_at.strftime(
+                                            "%d-%b-%Y %I:%M %p"
+                                        )
+                                    }}
+
+                                {% else %}
+
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             {% else %}
 
-            <div class="empty">
-                No sales found.
-            </div>
+                <div class="reports-empty">
+                    No sales found.
+                </div>
 
             {% endif %}
 
@@ -407,81 +492,99 @@
     </div>
 
 
-    <!-- SHOPS -->
+    <!-- =====================================================
+         SHOP REPORT
+    ====================================================== -->
 
-    <div class="section">
+    <div class="reports-section">
 
-        <div class="section-header">
-            <h2>Shop Report</h2>
-            <p>Shops registered by field persons</p>
+        <div class="reports-section-header">
+
+            <h2>
+                Shop Report
+            </h2>
+
+            <p>
+                Shops registered by field persons
+            </p>
+
         </div>
 
-        <div class="table-container">
+        <div class="reports-table-container">
 
             {% if shops %}
 
-            <table>
+                <table class="reports-table">
 
-                <thead>
-                    <tr>
-                        <th>Shop ID</th>
-                        <th>Shop Name</th>
-                        <th>Owner Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Field Person</th>
-                    </tr>
-                </thead>
+                    <thead>
 
-                <tbody>
+                        <tr>
+                            <th>Shop ID</th>
+                            <th>Shop Name</th>
+                            <th>Owner Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Field Person</th>
+                        </tr>
 
-                {% for shop in shops %}
+                    </thead>
 
-                    <tr>
+                    <tbody>
 
-                        <td>
-                            {{ shop.id }}
-                        </td>
+                    {% for shop in shops %}
 
-                        <td>
-                            <strong>
-                                {{ shop.name }}
-                            </strong>
-                        </td>
+                        <tr>
 
-                        <td>
-                            {{ shop.owner_name or "-" }}
-                        </td>
+                            <td>
+                                {{ shop.id }}
+                            </td>
 
-                        <td>
-                            {{ shop.phone or "-" }}
-                        </td>
+                            <td>
+                                <strong>
+                                    {{ shop.name }}
+                                </strong>
+                            </td>
 
-                        <td>
-                            {{ shop.address or "-" }}
-                        </td>
+                            <td>
+                                {{ shop.owner_name or "-" }}
+                            </td>
 
-                        <td>
-                            {% if shop.field_person and shop.field_person.user %}
-                                {{ shop.field_person.user.full_name }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
+                            <td>
+                                {{ shop.phone or "-" }}
+                            </td>
 
-                    </tr>
+                            <td>
+                                {{ shop.address or "-" }}
+                            </td>
 
-                {% endfor %}
+                            <td>
 
-                </tbody>
+                                {% if shop.field_person
+                                      and shop.field_person.user %}
 
-            </table>
+                                    {{ shop.field_person.user.full_name }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             {% else %}
 
-            <div class="empty">
-                No shops found.
-            </div>
+                <div class="reports-empty">
+                    No shops found.
+                </div>
 
             {% endif %}
 
@@ -490,91 +593,117 @@
     </div>
 
 
-    <!-- FIELD PERSONS -->
+    <!-- =====================================================
+         FIELD PERSON REPORT
+    ====================================================== -->
 
-    <div class="section">
+    <div class="reports-section">
 
-        <div class="section-header">
-            <h2>Field Person Report</h2>
-            <p>Registered field persons and account status</p>
+        <div class="reports-section-header">
+
+            <h2>
+                Field Person Report
+            </h2>
+
+            <p>
+                Registered field persons and account status
+            </p>
+
         </div>
 
-        <div class="table-container">
+        <div class="reports-table-container">
 
             {% if field_persons %}
 
-            <table>
+                <table class="reports-table">
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Username</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+                    <thead>
 
-                <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                        </tr>
 
-                {% for person in field_persons %}
+                    </thead>
 
-                    <tr>
+                    <tbody>
 
-                        <td>
-                            {{ person.id }}
-                        </td>
+                    {% for person in field_persons %}
 
-                        <td>
-                            <strong>
-                                {{ person.user.full_name if person.user else "-" }}
-                            </strong>
-                        </td>
+                        <tr>
 
-                        <td>
-                            {{ person.user.username if person.user else "-" }}
-                        </td>
+                            <td>
+                                {{ person.id }}
+                            </td>
 
-                        <td>
-                            {{ person.phone or "-" }}
-                        </td>
+                            <td>
 
-                        <td>
-                            {{ person.user.role if person.user else "field" }}
-                        </td>
+                                <strong>
+                                    {{
+                                        person.user.full_name
+                                        if person.user
+                                        else "-"
+                                    }}
+                                </strong>
 
-                        <td>
+                            </td>
 
-                            {% if person.user and person.user.is_active %}
+                            <td>
+                                {{
+                                    person.user.username
+                                    if person.user
+                                    else "-"
+                                }}
+                            </td>
 
-                                <span class="status-active">
-                                    Active
-                                </span>
+                            <td>
+                                {{ person.phone or "-" }}
+                            </td>
 
-                            {% else %}
+                            <td>
+                                {{
+                                    person.user.role
+                                    if person.user
+                                    else "field"
+                                }}
+                            </td>
 
-                                <span class="status-inactive">
-                                    Inactive
-                                </span>
+                            <td>
 
-                            {% endif %}
+                                {% if person.user
+                                      and person.user.is_active %}
 
-                        </td>
+                                    <span class="reports-status-active">
+                                        Active
+                                    </span>
 
-                    </tr>
+                                {% else %}
 
-                {% endfor %}
+                                    <span class="reports-status-inactive">
+                                        Inactive
+                                    </span>
 
-                </tbody>
+                                {% endif %}
 
-            </table>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             {% else %}
 
-            <div class="empty">
-                No field persons found.
-            </div>
+                <div class="reports-empty">
+                    No field persons found.
+                </div>
 
             {% endif %}
 
@@ -583,99 +712,126 @@
     </div>
 
 
-    <!-- STOCK TRANSACTIONS -->
+    <!-- =====================================================
+         STOCK TRANSACTIONS REPORT
+    ====================================================== -->
 
-    <div class="section">
+    <div class="reports-section">
 
-        <div class="section-header">
-            <h2>Stock Transactions Report</h2>
-            <p>Medicine receiving, dispatch and inventory activity</p>
+        <div class="reports-section-header">
+
+            <h2>
+                Stock Transactions Report
+            </h2>
+
+            <p>
+                Medicine receiving, dispatch and inventory activity
+            </p>
+
         </div>
 
-        <div class="table-container">
+        <div class="reports-table-container">
 
             {% if transactions %}
 
-            <table>
+                <table class="reports-table">
 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Medicine</th>
-                        <th>Transaction Type</th>
-                        <th>Quantity</th>
-                        <th>Performed By</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
+                    <thead>
 
-                <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Medicine</th>
+                            <th>Transaction Type</th>
+                            <th>Quantity</th>
+                            <th>Performed By</th>
+                            <th>Date</th>
+                        </tr>
 
-                {% for transaction in transactions %}
+                    </thead>
 
-                    <tr>
+                    <tbody>
 
-                        <td>
-                            {{ transaction.id }}
-                        </td>
+                    {% for transaction in transactions %}
 
-                        <td>
-                            {{ transaction.medicine.name if transaction.medicine else "-" }}
-                        </td>
+                        <tr>
 
-                        <td>
+                            <td>
+                                {{ transaction.id }}
+                            </td>
 
-                            {% if transaction.transaction_type == "RECEIVED" %}
+                            <td>
+                                {{
+                                    transaction.medicine.name
+                                    if transaction.medicine
+                                    else "-"
+                                }}
+                            </td>
 
-                                <span class="transaction-received">
-                                    RECEIVED
-                                </span>
+                            <td>
 
-                            {% elif transaction.transaction_type == "DISPATCHED" %}
+                                {% if transaction.transaction_type == "RECEIVED" %}
 
-                                <span class="transaction-dispatched">
-                                    DISPATCHED
-                                </span>
+                                    <span class="reports-transaction-received">
+                                        RECEIVED
+                                    </span>
 
-                            {% else %}
+                                {% elif transaction.transaction_type == "DISPATCHED" %}
 
-                                {{ transaction.transaction_type }}
+                                    <span class="reports-transaction-dispatched">
+                                        DISPATCHED
+                                    </span>
 
-                            {% endif %}
+                                {% else %}
 
-                        </td>
+                                    {{ transaction.transaction_type }}
 
-                        <td>
-                            {{ transaction.quantity }}
-                        </td>
+                                {% endif %}
 
-                        <td>
-                            {{ transaction.user.full_name if transaction.user else "-" }}
-                        </td>
+                            </td>
 
-                        <td>
+                            <td>
+                                {{ transaction.quantity }}
+                            </td>
 
-                            {% if transaction.created_at %}
-                                {{ transaction.created_at.strftime("%d-%b-%Y %I:%M %p") }}
-                            {% else %}
-                                N/A
-                            {% endif %}
+                            <td>
+                                {{
+                                    transaction.user.full_name
+                                    if transaction.user
+                                    else "-"
+                                }}
+                            </td>
 
-                        </td>
+                            <td>
 
-                    </tr>
+                                {% if transaction.created_at %}
 
-                {% endfor %}
+                                    {{
+                                        transaction.created_at.strftime(
+                                            "%d-%b-%Y %I:%M %p"
+                                        )
+                                    }}
 
-                </tbody>
+                                {% else %}
 
-            </table>
+                                    N/A
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
 
             {% else %}
 
-            <div class="empty">
-                No stock transactions found.
-            </div>
+                <div class="reports-empty">
+                    No stock transactions found.
+                </div>
 
             {% endif %}
 
@@ -686,7 +842,11 @@
 </div>
 
 
-<div class="footer">
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<div class="reports-footer">
 
     <p>
         NGO Medicine Management System
@@ -698,6 +858,4 @@
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}

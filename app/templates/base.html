@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color"
+          content="#1f4e78">
+
+    <meta name="mobile-web-app-capable"
+          content="yes">
+
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="default">
+
+    <meta name="apple-mobile-web-app-title"
+          content="NGO Medicine">
+
+
+    <!-- =====================================================
+         PWA MANIFEST
+         ===================================================== -->
+
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}"
+    >
+
+
+    <!-- =====================================================
+         APP ICON
+         ===================================================== -->
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='icons/icon-192.png') }}"
+    >
+
+
+    <!-- =====================================================
+         GLOBAL CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/app.css') }}"
+    >
+
+
+    <!-- =====================================================
+         PAGE TITLE
+         ===================================================== -->
+
+    <title>
+        {% block title %}
+            NGO Medicine Management System
+        {% endblock %}
+    </title>
+
+
+    <!-- =====================================================
+         EXTRA PAGE HEAD CONTENT
+         ===================================================== -->
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     MOBILE TOP BAR
+     ========================================================= -->
+
+<div class="mobile-topbar">
+
+    <button
+        type="button"
+        class="mobile-menu-button"
+        data-mobile-menu
+        aria-label="Open navigation"
+    >
+        ☰
+    </button>
+
+
+    <div class="mobile-topbar-title">
+        NGO Medicine
+    </div>
+
+
+    <div></div>
+
+</div>
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside
+    class="app-sidebar"
+    data-sidebar
+>
+
+
+    <!-- =====================================================
+         SIDEBAR HEADER
+         ===================================================== -->
+
+    <div class="app-sidebar-header">
+
+        <h1 class="app-sidebar-title">
+            NGO Medicine
+        </h1>
+
+        <div class="app-sidebar-subtitle">
+            Management System
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <nav class="app-sidebar-nav">
+
+        {% if current_user.is_authenticated %}
+
+
+            <!-- =================================================
+                 ADMIN NAVIGATION
+                 ================================================= -->
+
+            {% if current_user.role == "admin" %}
+
+                <a
+                    href="{{ url_for('admin.dashboard') }}"
+                    class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}"
+                >
+                    🏠
+                    <span>Dashboard</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('admin.field_persons') }}"
+                    class="{% if request.endpoint in ['admin.field_persons', 'admin.add_field_person'] %}active{% endif %}"
+                >
+                    👥
+                    <span>Field Persons</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('medicine.list_medicines') }}"
+                    class="{% if request.endpoint in ['medicine.list_medicines', 'medicine.add_medicine', 'medicine.edit_medicine'] %}active{% endif %}"
+                >
+                    💊
+                    <span>Medicines</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.dashboard') }}"
+                    class="{% if request.endpoint == 'inventory.dashboard' %}active{% endif %}"
+                >
+                    📦
+                    <span>Main Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.receive_stock') }}"
+                    class="{% if request.endpoint == 'inventory.receive_stock' %}active{% endif %}"
+                >
+                    📥
+                    <span>Receive Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.dispatch_stock') }}"
+                    class="{% if request.endpoint == 'inventory.dispatch_stock' %}active{% endif %}"
+                >
+                    📤
+                    <span>Dispatch Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.history') }}"
+                    class="{% if request.endpoint == 'inventory.history' %}active{% endif %}"
+                >
+                    📋
+                    <span>Stock History</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('admin.shops') }}"
+                    class="{% if request.endpoint in ['admin.shops', 'admin.shop_details'] %}active{% endif %}"
+                >
+                    🏪
+                    <span>Shops</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('admin.sales') }}"
+                    class="{% if request.endpoint in ['admin.sales', 'admin.sale_details'] %}active{% endif %}"
+                >
+                    💰
+                    <span>Sales</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('admin.reports') }}"
+                    class="{% if request.endpoint == 'admin.reports' %}active{% endif %}"
+                >
+                    📊
+                    <span>Reports</span>
+                </a>
+
+
+            <!-- =================================================
+                 STORE NAVIGATION
+                 ================================================= -->
+
+            {% elif current_user.role == "store" %}
+
+                <a
+                    href="{{ url_for('store.dashboard') }}"
+                    class="{% if request.endpoint == 'store.dashboard' %}active{% endif %}"
+                >
+                    🏠
+                    <span>Dashboard</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.dashboard') }}"
+                    class="{% if request.endpoint == 'inventory.dashboard' %}active{% endif %}"
+                >
+                    📦
+                    <span>Main Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.receive_stock') }}"
+                    class="{% if request.endpoint == 'inventory.receive_stock' %}active{% endif %}"
+                >
+                    📥
+                    <span>Receive Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.dispatch_stock') }}"
+                    class="{% if request.endpoint == 'inventory.dispatch_stock' %}active{% endif %}"
+                >
+                    📤
+                    <span>Dispatch Stock</span>
+                </a>
+
+
+                <a
+                    href="{{ url_for('inventory.history') }}"
+                    class="{% if request.endpoint == 'inventory.history' %}active{% endif %}"
+                >
+                    📋
+                    <span>Stock History</span>
+                </a>
+
+
+            <!-- =================================================
+                 FIELD NAVIGATION
+                 ================================================= -->
+
+            {% elif current_user.role == "field" %}
+
+                <a
+                    href="{{ url_for('field.dashboard') }}"
+                    class="{% if request.endpoint == 'field.dashboard' %}active{% endif %}"
+                >
+                    🏠
+                    <span>Dashboard</span>
+                </a>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 LOGOUT
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('auth.logout') }}"
+                class="logout"
+            >
+                🚪
+                <span>Logout</span>
+            </a>
+
+
+        {% endif %}
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================================================
+     SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+    class="sidebar-overlay"
+    data-sidebar-overlay
+></div>
+
+
+<!-- =========================================================
+     MAIN APPLICATION AREA
+     ========================================================= -->
+
+<main class="app-main">
+
+    <div class="app-content">
+
+
+        <!-- =================================================
+             GLOBAL FLASH MESSAGES
+             ================================================= -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div
+                        class="flash-message"
+                        data-auto-dismiss
+                    >
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =================================================
+             PAGE CONTENT
+             ================================================= -->
+
+        {% block content %}
+        {% endblock %}
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     GLOBAL JAVASCRIPT
+     ========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='js/app.js') }}"
+></script>
+
+
+{% block scripts %}
+{% endblock %}
+
+
+</body>
+
+</html>

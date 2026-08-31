@@ -8,7 +8,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>All Shops</title>
+    <title>All Shops | Admin</title>
 
     <style>
 
@@ -17,21 +17,37 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background: #f4f6f8;
-            color: #222;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
         }
+
+        /* ================= HEADER ================= */
 
         .header {
             background: #1f2937;
             color: white;
-            padding: 20px 30px;
+            padding: 24px 30px;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
         }
 
         .header h1 {
             margin: 0;
+            font-size: 28px;
         }
+
+        .header p {
+            margin: 6px 0 0;
+            color: #d1d5db;
+            font-size: 14px;
+        }
+
+        /* ================= CONTAINER ================= */
 
         .container {
             max-width: 1200px;
@@ -39,92 +55,334 @@
             padding: 0 20px;
         }
 
-        .search-box {
-            background: white;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        /* ================= TOP BAR ================= */
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
         }
 
-        input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            max-width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .page-title h2 {
+            margin: 0;
+            font-size: 22px;
         }
 
-        button {
+        .page-title p {
+            margin: 5px 0 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .button {
+            display: inline-block;
             padding: 10px 16px;
+            border-radius: 7px;
             border: none;
-            border-radius: 5px;
-            background: #2563eb;
+            text-decoration: none;
             color: white;
+            background: #374151;
+            font-size: 14px;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        button:hover {
+        .button:hover {
+            background: #1f2937;
+        }
+
+        .primary {
+            background: #2563eb;
+        }
+
+        .primary:hover {
             background: #1d4ed8;
         }
 
-        .table-container {
+        /* ================= SEARCH CARD ================= */
+
+        .search-card {
             background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 22px;
+        }
+
+        .search-title {
+            margin-bottom: 12px;
+        }
+
+        .search-title h3 {
+            margin: 0;
+            font-size: 17px;
+        }
+
+        .search-title p {
+            margin: 5px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            width: 320px;
+            max-width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+        }
+
+        .clear-link {
+            display: inline-block;
+            padding: 10px 12px;
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .clear-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= TABLE CARD ================= */
+
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .table-header p {
+            margin: 5px 0 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .table-container {
+            width: 100%;
             overflow-x: auto;
         }
 
         table {
             width: 100%;
+            min-width: 950px;
             border-collapse: collapse;
         }
 
-        th,
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-
         th {
-            background: #f1f5f9;
+            background: #1f4e78;
+            color: white;
+            padding: 13px 14px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
-        tr:hover {
-            background: #f8fafc;
+        td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+            vertical-align: middle;
         }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ================= SHOP ID ================= */
+
+        .shop-id {
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        /* ================= SHOP NAME ================= */
+
+        .shop-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* ================= VIEW BUTTON ================= */
 
         .view-button {
             display: inline-block;
             padding: 7px 12px;
-            background: #374151;
+            background: #2563eb;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: 0.2s;
         }
 
         .view-button:hover {
-            background: #1f2937;
+            background: #1d4ed8;
         }
 
-        .back {
-            margin-top: 20px;
+        /* ================= EMPTY STATE ================= */
+
+        .empty {
+            padding: 50px 20px !important;
+            text-align: center !important;
+            color: #6b7280;
         }
 
-        .back a {
+        .empty-title {
+            color: #374151;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+
+        /* ================= NAVIGATION ================= */
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .navigation a {
             color: #2563eb;
             text-decoration: none;
+            font-size: 14px;
         }
 
-        .back a:hover {
+        .navigation a:hover {
             text-decoration: underline;
         }
 
-        .empty {
+        .separator {
+            color: #9ca3af;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+            margin-top: 45px;
+            padding: 22px;
+            background: #1f2937;
+            color: white;
             text-align: center;
-            padding: 30px;
-            color: #666;
+        }
+
+        .footer p {
+            margin: 0 0 8px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #dbeafe;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                margin-top: 20px;
+                padding: 0 12px;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+            }
+
+            .page-title h2 {
+                font-size: 20px;
+            }
+
+            .search-card {
+                padding: 18px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .search-form .button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .clear-link {
+                text-align: center;
+            }
+
+            .table-header {
+                padding: 18px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .separator {
+                display: none;
+            }
+
         }
 
     </style>
@@ -135,41 +393,106 @@
 <body>
 
 
+<!-- ================= HEADER ================= -->
+
 <div class="header">
 
-    <h1>All Shops</h1>
+    <div class="header-content">
+
+        <h1>All Shops</h1>
+
+        <p>
+            System Administrator
+        </p>
+
+    </div>
 
 </div>
 
 
+<!-- ================= MAIN CONTAINER ================= -->
+
 <div class="container">
 
 
-    <!-- SEARCH -->
+    <!-- ================= TOP BAR ================= -->
 
-    <div class="search-box">
+    <div class="top-bar">
 
-        <form method="GET"
-              action="{{ url_for('admin.shops') }}">
+        <div class="page-title">
+
+            <h2>
+                Registered Shops
+            </h2>
+
+            <p>
+                View and manage all shops registered in the system.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <a
+                class="button primary"
+                href="{{ url_for('admin.dashboard') }}"
+            >
+                ← Admin Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <div class="search-card">
+
+        <div class="search-title">
+
+            <h3>
+                Search Shops
+            </h3>
+
+            <p>
+                Search for a shop by its name.
+            </p>
+
+        </div>
+
+
+        <form
+            class="search-form"
+            method="GET"
+            action="{{ url_for('admin.shops') }}"
+        >
 
             <input
+                class="search-input"
                 type="text"
                 name="search"
-                placeholder="Search shop by name"
+                placeholder="Enter shop name..."
                 value="{{ search or '' }}"
             >
 
-            <button type="submit">
+
+            <button
+                class="button primary"
+                type="submit"
+            >
                 Search
             </button>
+
 
             {% if search %}
 
                 <a
+                    class="clear-link"
                     href="{{ url_for('admin.shops') }}"
-                    style="margin-left: 10px;"
                 >
-                    Clear
+                    Clear Search
                 </a>
 
             {% endif %}
@@ -179,130 +502,218 @@
     </div>
 
 
-    <!-- SHOP TABLE -->
+    <!-- ================= SHOP TABLE ================= -->
 
-    <div class="table-container">
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-
-                    <th>Shop Name</th>
-
-                    <th>Owner Name</th>
-
-                    <th>Phone</th>
-
-                    <th>Address</th>
-
-                    <th>Field Person</th>
-
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
+    <div class="table-card">
 
 
-            <tbody>
+        <div class="table-header">
 
-                {% for shop in shops %}
+            <h3>
+                Shop List
+            </h3>
 
-                <tr>
+            <p>
+                Complete list of registered shops and assigned field persons.
+            </p>
 
-                    <td>
-                        {{ shop.id }}
-                    </td>
+        </div>
 
-                    <td>
-                        <strong>
-                            {{ shop.name }}
-                        </strong>
-                    </td>
 
-                    <td>
-                        {{ shop.owner_name or "-" }}
-                    </td>
+        <div class="table-container">
 
-                    <td>
-                        {{ shop.phone or "-" }}
-                    </td>
+            <table>
 
-                    <td>
-                        {{ shop.address or "-" }}
-                    </td>
+                <thead>
 
-                    <td>
+                    <tr>
 
-                        {% if shop.field_person
-                              and shop.field_person.user %}
+                        <th>
+                            ID
+                        </th>
 
-                            {{ shop.field_person.user.full_name }}
+                        <th>
+                            Shop Name
+                        </th>
 
-                        {% else %}
+                        <th>
+                            Owner Name
+                        </th>
 
-                            -
+                        <th>
+                            Phone
+                        </th>
 
-                        {% endif %}
+                        <th>
+                            Address
+                        </th>
 
-                    </td>
+                        <th>
+                            Field Person
+                        </th>
 
-                    <td>
+                        <th>
+                            Action
+                        </th>
 
-                        <a
-                            class="view-button"
-                            href="{{ url_for(
-                                'admin.shop_details',
-                                shop_id=shop.id
-                            ) }}"
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for shop in shops %}
+
+                    <tr>
+
+
+                        <!-- SHOP ID -->
+
+                        <td>
+
+                            <span class="shop-id">
+                                #{{ shop.id }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- SHOP NAME -->
+
+                        <td>
+
+                            <span class="shop-name">
+                                {{ shop.name }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- OWNER -->
+
+                        <td>
+
+                            {{ shop.owner_name or "-" }}
+
+                        </td>
+
+
+                        <!-- PHONE -->
+
+                        <td>
+
+                            {{ shop.phone or "-" }}
+
+                        </td>
+
+
+                        <!-- ADDRESS -->
+
+                        <td>
+
+                            {{ shop.address or "-" }}
+
+                        </td>
+
+
+                        <!-- FIELD PERSON -->
+
+                        <td>
+
+                            {% if shop.field_person
+                                  and shop.field_person.user %}
+
+                                {{ shop.field_person.user.full_name }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <a
+                                class="view-button"
+                                href="{{ url_for(
+                                    'admin.shop_details',
+                                    shop_id=shop.id
+                                ) }}"
+                            >
+                                View Details
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% else %}
+
+
+                    <!-- EMPTY STATE -->
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty"
                         >
-                            View Details
-                        </a>
 
-                    </td>
+                            {% if search %}
 
-                </tr>
+                                <div class="empty-title">
+                                    No Shops Found
+                                </div>
 
-                {% else %}
+                                <div class="empty-text">
 
-                <tr>
+                                    No shops found for
+                                    "<strong>{{ search }}</strong>".
 
-                    <td
-                        colspan="7"
-                        class="empty"
-                    >
+                                </div>
 
-                        {% if search %}
+                            {% else %}
 
-                            No shops found for
-                            "<strong>{{ search }}</strong>"
+                                <div class="empty-title">
+                                    No Shops Registered
+                                </div>
 
-                        {% else %}
+                                <div class="empty-text">
+                                    No shops have been registered yet.
+                                </div>
 
-                            No shops have been registered yet
+                            {% endif %}
 
-                        {% endif %}
+                        </td>
 
-                    </td>
+                    </tr>
 
-                </tr>
 
-                {% endfor %}
+                    {% endfor %}
 
-            </tbody>
 
-        </table>
+                </tbody>
+
+            </table>
+
+        </div>
+
 
     </div>
 
 
-    <!-- BACK -->
+    <!-- ================= NAVIGATION ================= -->
 
-    <div class="back">
+    <div class="navigation">
 
         <a
             href="{{ url_for('admin.dashboard') }}"
@@ -310,14 +721,33 @@
             ← Back to Admin Dashboard
         </a>
 
-        &nbsp; | &nbsp;
+        <span class="separator">
+            |
+        </span>
 
-        <a href="{{ url_for('auth.logout') }}">
+        <a
+            href="{{ url_for('auth.logout') }}"
+        >
             Logout
         </a>
 
     </div>
 
+
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<div class="footer">
+
+    <p>
+        NGO Medicine Management System
+    </p>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
 
 </div>
 

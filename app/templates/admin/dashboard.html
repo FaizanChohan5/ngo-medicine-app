@@ -1,538 +1,800 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿{% extends "base.html" %}
 
-<head>
+{% block title %}
+    Admin Dashboard
+{% endblock %}
 
-<meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1">
-
-<title>Admin Dashboard</title>
+{% block head %}
 
 <style>
 
-    * {
-        box-sizing: border-box;
+    /* ========================================================
+       ADMIN DASHBOARD
+       ======================================================== */
+
+    .dashboard-page {
+        width: 100%;
     }
 
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f4f6f8;
-        color: #222;
-    }
 
-    .header {
-        background: #1f2937;
+    /* ========================================================
+       HEADER
+       ======================================================== */
+
+    .dashboard-header {
+        background: #1f4e78;
         color: white;
-        padding: 20px 30px;
+        border-radius: 14px;
+        padding: 24px;
+        margin-bottom: 24px;
     }
 
-    .header h1 {
-        margin: 0 0 8px 0;
+    .dashboard-header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        font-weight: 700;
     }
 
-    .header p {
+    .dashboard-header p {
         margin: 0;
-        color: #d1d5db;
+        color: #e5edf5;
+        font-size: 15px;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 0 20px;
+
+    /* ========================================================
+       SECTION
+       ======================================================== */
+
+    .dashboard-section {
+        margin-bottom: 30px;
     }
 
-    .section-title {
-        margin-top: 30px;
+    .dashboard-section-header {
         margin-bottom: 15px;
     }
 
-    .grid {
+    .dashboard-section-title {
+        margin: 0;
+        font-size: 21px;
+        color: #1f2937;
+    }
+
+    .dashboard-section-description {
+        margin: 5px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* ========================================================
+       CARD GRID
+       ======================================================== */
+
+    .dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 18px;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
+        gap: 16px;
     }
 
-    .card {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
+
+    /* ========================================================
+       DASHBOARD CARD
+       ======================================================== */
+
+    .dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
         padding: 20px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        box-shadow:
+            0 2px 8px rgba(0, 0, 0, 0.05);
+
+        display: flex;
+        flex-direction: column;
     }
 
-    .card h3 {
-        margin-top: 0;
+    .dashboard-card-icon {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eef4f8;
+        border-radius: 10px;
+
+        font-size: 22px;
+
+        margin-bottom: 14px;
     }
 
-    .card p {
-        color: #666;
+    .dashboard-card h3 {
+        margin: 0 0 7px;
+        font-size: 17px;
+        color: #1f2937;
+    }
+
+    .dashboard-card p {
+        margin: 0 0 18px;
+
+        color: #6b7280;
         font-size: 14px;
         line-height: 1.5;
+
+        flex: 1;
     }
 
-    .button {
-        display: inline-block;
-        padding: 9px 14px;
-        background: #2563eb;
+
+    /* ========================================================
+       CARD BUTTON
+       ======================================================== */
+
+    .dashboard-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+
+        padding: 10px 14px;
+
+        border-radius: 7px;
+
+        background: #1f4e78;
         color: white;
+
         text-decoration: none;
-        border-radius: 5px;
-        margin-top: 8px;
-        border: none;
-        cursor: pointer;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        transition:
+            background 0.15s ease,
+            transform 0.1s ease;
     }
 
-    .button:hover {
-        background: #1d4ed8;
+    .dashboard-button:hover {
+        background: #173a5c;
     }
 
-    .button.secondary {
-        background: #374151;
+    .dashboard-button:active {
+        transform: scale(0.98);
     }
 
-    .button.secondary:hover {
-        background: #1f2937;
-    }
-
-    .button.success {
+    .dashboard-button.success {
         background: #15803d;
     }
 
-    .button.success:hover {
+    .dashboard-button.success:hover {
         background: #166534;
     }
 
-    .button.warning {
+    .dashboard-button.warning {
         background: #d97706;
     }
 
-    .button.warning:hover {
+    .dashboard-button.warning:hover {
         background: #b45309;
     }
 
-    .button.danger {
-        background: #dc2626;
+    .dashboard-button.secondary {
+        background: #374151;
     }
 
-    .button.danger:hover {
-        background: #b91c1c;
+    .dashboard-button.secondary:hover {
+        background: #1f2937;
     }
+
+
+    /* ========================================================
+       QUICK ACTIONS
+       ======================================================== */
 
     .quick-actions {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fit, minmax(180px, 1fr));
+
         gap: 10px;
     }
 
-    .footer {
-        margin-top: 40px;
-        padding: 20px;
-        background: #1f2937;
+    .quick-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        min-height: 44px;
+
+        padding: 10px 14px;
+
+        border-radius: 8px;
+
+        background: #1f4e78;
         color: white;
+
+        text-decoration: none;
+
+        font-size: 14px;
+        font-weight: 600;
+
         text-align: center;
     }
 
-    .footer p {
-        margin: 0 0 8px 0;
+    .quick-action:hover {
+        background: #173a5c;
     }
 
-    .footer a {
-        color: white;
-        text-decoration: none;
+    .quick-action.success {
+        background: #15803d;
     }
 
-    .footer a:hover {
-        text-decoration: underline;
+    .quick-action.success:hover {
+        background: #166534;
+    }
+
+    .quick-action.warning {
+        background: #d97706;
+    }
+
+    .quick-action.warning:hover {
+        background: #b45309;
+    }
+
+    .quick-action.secondary {
+        background: #374151;
+    }
+
+    .quick-action.secondary:hover {
+        background: #1f2937;
+    }
+
+
+    /* ========================================================
+       FOOTER
+       ======================================================== */
+
+    .dashboard-footer {
+        margin-top: 35px;
+
+        padding: 20px;
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+
+        text-align: center;
+
+        color: #6b7280;
+
+        font-size: 13px;
+    }
+
+
+    /* ========================================================
+       MOBILE
+       ======================================================== */
+
+    @media (max-width: 700px) {
+
+        .dashboard-header {
+            padding: 20px;
+
+            border-radius: 10px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 23px;
+        }
+
+        .dashboard-header p {
+            font-size: 14px;
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .dashboard-section-title {
+            font-size: 19px;
+        }
+
+    }
+
+
+    @media (max-width: 420px) {
+
+        .quick-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-card {
+            padding: 18px;
+        }
+
     }
 
 </style>
 
-</head>
+{% endblock %}
 
-<body>
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
+{% block content %}
 
-<div class="header">
+<div class="dashboard-page">
 
-    <h1>Admin Dashboard</h1>
 
-    <p>
-        Welcome,
-        <strong>{{ current_user.full_name }}</strong>
-    </p>
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-</div>
+    <header class="dashboard-header">
 
+        <h1>
+            Admin Dashboard
+        </h1>
 
-<div class="container">
+        <p>
+            Welcome,
+            <strong>
+                {{ current_user.full_name }}
+            </strong>
+        </p>
 
+    </header>
 
-<!-- =========================================================
-     MANAGEMENT MODULES
-========================================================= -->
 
-<h2 class="section-title">
-    Management Modules
-</h2>
+    <!-- =====================================================
+         MANAGEMENT
+         ===================================================== -->
 
-<div class="grid">
+    <section class="dashboard-section">
 
+        <div class="dashboard-section-header">
 
-<!-- FIELD PERSONS -->
+            <h2 class="dashboard-section-title">
+                Management
+            </h2>
 
-<div class="card">
+            <p class="dashboard-section-description">
+                Manage the organization's people, medicines,
+                shops and sales.
+            </p>
 
-    <h3>Field Persons</h3>
+        </div>
 
-    <p>
-        Manage field persons and their accounts.
-    </p>
 
-    <a
-        class="button"
-        href="{{ url_for('admin.field_persons') }}"
-    >
-        View Field Persons
-    </a>
+        <div class="dashboard-grid">
 
-    <a
-        class="button success"
-        href="{{ url_for('admin.add_field_person') }}"
-    >
-        Add Field Person
-    </a>
 
-</div>
+            <!-- FIELD PERSONS -->
 
+            <article class="dashboard-card">
 
-<!-- MEDICINES -->
+                <div class="dashboard-card-icon">
+                    👥
+                </div>
 
-<div class="card">
+                <h3>
+                    Field Persons
+                </h3>
 
-    <h3>Medicine Management</h3>
+                <p>
+                    Manage field persons and their accounts.
+                </p>
 
-    <p>
-        Manage medicines, categories, units,
-        prices and active status.
-    </p>
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('admin.field_persons') }}"
+                >
+                    View Field Persons
+                </a>
 
-    <a
-        class="button"
-        href="{{ url_for('medicine.list_medicines') }}"
-    >
-        View Medicines
-    </a>
+            </article>
 
-    <a
-        class="button success"
-        href="{{ url_for('medicine.add_medicine') }}"
-    >
-        Add Medicine
-    </a>
 
-</div>
+            <!-- MEDICINES -->
 
+            <article class="dashboard-card">
 
-<!-- MAIN STOCK -->
+                <div class="dashboard-card-icon">
+                    💊
+                </div>
 
-<div class="card">
+                <h3>
+                    Medicines
+                </h3>
 
-    <h3>Main Stock</h3>
+                <p>
+                    Manage medicines, categories, units,
+                    prices and active status.
+                </p>
 
-    <p>
-        View and manage the organization's
-        central medicine inventory.
-    </p>
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('medicine.list_medicines') }}"
+                >
+                    View Medicines
+                </a>
 
-    <a
-        class="button"
-        href="{{ url_for('inventory.dashboard') }}"
-    >
-        Open Main Stock
-    </a>
+            </article>
 
-</div>
 
+            <!-- SHOPS -->
 
-<!-- SHOPS -->
+            <article class="dashboard-card">
 
-<div class="card">
+                <div class="dashboard-card-icon">
+                    🏪
+                </div>
 
-    <h3>Shops</h3>
+                <h3>
+                    Shops
+                </h3>
 
-    <p>
-        View shops registered by field persons.
-    </p>
+                <p>
+                    View and manage shops registered
+                    by field persons.
+                </p>
 
-    <a
-        class="button"
-        href="{{ url_for('admin.shops') }}"
-    >
-        View All Shops
-    </a>
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('admin.shops') }}"
+                >
+                    View Shops
+                </a>
 
-</div>
+            </article>
 
 
-<!-- SALES -->
+            <!-- SALES -->
 
-<div class="card">
+            <article class="dashboard-card">
 
-    <h3>Sales</h3>
+                <div class="dashboard-card-icon">
+                    💰
+                </div>
 
-    <p>
-        View all medicine sales recorded
-        by field persons.
-    </p>
+                <h3>
+                    Sales
+                </h3>
 
-    <a
-        class="button"
-        href="{{ url_for('admin.sales') }}"
-    >
-        View All Sales
-    </a>
+                <p>
+                    Monitor medicine sales recorded
+                    by field persons.
+                </p>
 
-</div>
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('admin.sales') }}"
+                >
+                    View Sales
+                </a>
 
+            </article>
 
-<!-- STOCK TRANSACTIONS -->
 
-<div class="card">
+        </div>
 
-    <h3>Stock Transactions</h3>
+    </section>
 
-    <p>
-        Track medicine receiving, dispatch
-        and inventory transactions.
-    </p>
 
-    <a
-        class="button secondary"
-        href="{{ url_for('inventory.history') }}"
-    >
-        View History
-    </a>
+    <!-- =====================================================
+         INVENTORY
+         ===================================================== -->
 
-</div>
+    <section class="dashboard-section">
 
-</div>
+        <div class="dashboard-section-header">
 
+            <h2 class="dashboard-section-title">
+                Inventory
+            </h2>
 
-<!-- =========================================================
-     INVENTORY OPERATIONS
-========================================================= -->
+            <p class="dashboard-section-description">
+                Manage central medicine stock and
+                inventory movements.
+            </p>
 
-<h2 class="section-title">
-    Inventory Operations
-</h2>
+        </div>
 
-<div class="grid">
 
+        <div class="dashboard-grid">
 
-<!-- RECEIVE STOCK -->
 
-<div class="card">
+            <!-- MAIN STOCK -->
 
-    <h3>Receive Stock</h3>
+            <article class="dashboard-card">
 
-    <p>
-        Add newly received medicine
-        to the main inventory.
-    </p>
+                <div class="dashboard-card-icon">
+                    📦
+                </div>
 
-    <a
-        class="button success"
-        href="{{ url_for('inventory.receive_stock') }}"
-    >
-        Receive Stock
-    </a>
+                <h3>
+                    Main Stock
+                </h3>
 
-</div>
+                <p>
+                    View the organization's central
+                    medicine inventory.
+                </p>
 
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('inventory.dashboard') }}"
+                >
+                    Open Main Stock
+                </a>
 
-<!-- DISPATCH STOCK -->
+            </article>
 
-<div class="card">
 
-    <h3>Dispatch Stock</h3>
+            <!-- RECEIVE -->
 
-    <p>
-        Issue medicines from main stock
-        to field persons.
-    </p>
+            <article class="dashboard-card">
 
-    <a
-        class="button warning"
-        href="{{ url_for('inventory.dispatch_stock') }}"
-    >
-        Dispatch Stock
-    </a>
+                <div class="dashboard-card-icon">
+                    📥
+                </div>
 
-</div>
+                <h3>
+                    Receive Stock
+                </h3>
 
+                <p>
+                    Add newly received medicine
+                    to the main inventory.
+                </p>
 
-<!-- STOCK HISTORY -->
+                <a
+                    class="dashboard-button success"
+                    href="{{ url_for('inventory.receive_stock') }}"
+                >
+                    Receive Stock
+                </a>
 
-<div class="card">
+            </article>
 
-    <h3>Stock History</h3>
 
-    <p>
-        Review all stock transactions
-        recorded in the system.
-    </p>
+            <!-- DISPATCH -->
 
-    <a
-        class="button secondary"
-        href="{{ url_for('inventory.history') }}"
-    >
-        Transaction History
-    </a>
+            <article class="dashboard-card">
 
-</div>
+                <div class="dashboard-card-icon">
+                    📤
+                </div>
 
-</div>
+                <h3>
+                    Dispatch Stock
+                </h3>
 
+                <p>
+                    Issue medicines from main stock
+                    to field persons.
+                </p>
 
-<!-- =========================================================
-     REPORTS & EXPORT
-========================================================= -->
+                <a
+                    class="dashboard-button warning"
+                    href="{{ url_for('inventory.dispatch_stock') }}"
+                >
+                    Dispatch Stock
+                </a>
 
-<h2 class="section-title">
-    Reports & Export
-</h2>
+            </article>
 
-<div class="grid">
 
+            <!-- HISTORY -->
 
-<!-- REPORTS -->
+            <article class="dashboard-card">
 
-<div class="card">
+                <div class="dashboard-card-icon">
+                    📋
+                </div>
 
-    <h3>Reports</h3>
+                <h3>
+                    Stock History
+                </h3>
 
-    <p>
-        View detailed reports for medicines,
-        stock, sales, shops and field persons.
-    </p>
+                <p>
+                    Review previous receiving,
+                    dispatch and stock transactions.
+                </p>
 
-    <a
-        class="button"
-        href="{{ url_for('admin.reports') }}"
-    >
-        Open Reports
-    </a>
+                <a
+                    class="dashboard-button secondary"
+                    href="{{ url_for('inventory.history') }}"
+                >
+                    View History
+                </a>
 
-</div>
+            </article>
 
 
-<!-- EXCEL EXPORT -->
+        </div>
 
-<div class="card">
+    </section>
 
-    <h3>Excel Export</h3>
 
-    <p>
-        Download the complete monthly
-        operations report as an Excel file.
-    </p>
+    <!-- =====================================================
+         REPORTS
+         ===================================================== -->
 
-    <a
-        class="button success"
-        href="{{ url_for('admin.export_reports') }}"
-    >
-        Download Excel Report
-    </a>
+    <section class="dashboard-section">
 
-</div>
+        <div class="dashboard-section-header">
 
-</div>
+            <h2 class="dashboard-section-title">
+                Reports
+            </h2>
 
+            <p class="dashboard-section-description">
+                Review system activity and export
+                operational data.
+            </p>
 
-<!-- =========================================================
-     QUICK ACTIONS
-========================================================= -->
+        </div>
 
-<h2 class="section-title">
-    Quick Actions
-</h2>
 
-<div class="quick-actions">
+        <div class="dashboard-grid">
 
-<a
-    class="button success"
-    href="{{ url_for('admin.add_field_person') }}"
->
-    + Add Field Person
-</a>
 
+            <!-- REPORTS -->
 
-<a
-    class="button success"
-    href="{{ url_for('medicine.add_medicine') }}"
->
-    + Add Medicine
-</a>
+            <article class="dashboard-card">
 
+                <div class="dashboard-card-icon">
+                    📊
+                </div>
 
-<a
-    class="button success"
-    href="{{ url_for('inventory.receive_stock') }}"
->
-    + Receive Stock
-</a>
+                <h3>
+                    Reports
+                </h3>
 
+                <p>
+                    View detailed reports covering
+                    medicines, stock, sales, shops
+                    and field persons.
+                </p>
 
-<a
-    class="button warning"
-    href="{{ url_for('inventory.dispatch_stock') }}"
->
-    + Dispatch Stock
-</a>
+                <a
+                    class="dashboard-button"
+                    href="{{ url_for('admin.reports') }}"
+                >
+                    Open Reports
+                </a>
 
+            </article>
 
-<a
-    class="button"
-    href="{{ url_for('admin.sales') }}"
->
-    View Sales
-</a>
 
+            <!-- EXCEL -->
 
-<a
-    class="button secondary"
-    href="{{ url_for('admin.reports') }}"
->
-    View Reports
-</a>
+            <article class="dashboard-card">
 
-</div>
+                <div class="dashboard-card-icon">
+                    📄
+                </div>
 
-</div>
+                <h3>
+                    Excel Export
+                </h3>
 
+                <p>
+                    Download the monthly operations
+                    report as an Excel file.
+                </p>
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+                <a
+                    class="dashboard-button success"
+                    href="{{ url_for('admin.export_reports') }}"
+                >
+                    Download Excel
+                </a>
 
-<div class="footer">
+            </article>
 
-    <p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <section class="dashboard-section">
+
+        <div class="dashboard-section-header">
+
+            <h2 class="dashboard-section-title">
+                Quick Actions
+            </h2>
+
+            <p class="dashboard-section-description">
+                Frequently used administrative operations.
+            </p>
+
+        </div>
+
+
+        <div class="quick-actions">
+
+
+            <a
+                class="quick-action success"
+                href="{{ url_for('admin.add_field_person') }}"
+            >
+                + Add Field Person
+            </a>
+
+
+            <a
+                class="quick-action success"
+                href="{{ url_for('medicine.add_medicine') }}"
+            >
+                + Add Medicine
+            </a>
+
+
+            <a
+                class="quick-action success"
+                href="{{ url_for('inventory.receive_stock') }}"
+            >
+                + Receive Stock
+            </a>
+
+
+            <a
+                class="quick-action warning"
+                href="{{ url_for('inventory.dispatch_stock') }}"
+            >
+                + Dispatch Stock
+            </a>
+
+
+            <a
+                class="quick-action"
+                href="{{ url_for('admin.sales') }}"
+            >
+                View Sales
+            </a>
+
+
+            <a
+                class="quick-action secondary"
+                href="{{ url_for('admin.reports') }}"
+            >
+                View Reports
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="dashboard-footer">
+
         NGO Medicine Management System
-    </p>
 
-    <a href="{{ url_for('auth.logout') }}">
-        Logout
-    </a>
+    </footer>
+
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}
