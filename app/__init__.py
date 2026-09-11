@@ -1,4 +1,5 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request
+import os
 from flask_login import login_required, current_user
 
 from app.models import db
@@ -78,9 +79,9 @@ def create_app():
     def home():
 
         return """
-        <h1>NGO Medicine Management System</h1>
-        <a href="/login">Login</a>
-        """
+<h1>V-Tag Medicine Management System</h1>
+<a href="https://v-tag-medicine-management.onrender.com/login">Login</a>
+"""
 
     # ============================================================
     # MAIN DASHBOARD ROUTER
@@ -109,6 +110,45 @@ def create_app():
             )
 
         return "Invalid user role", 403
+
+    # ============================================================
+    # TEMPORARY ADMIN SETUP
+    # ============================================================
+
+    @app.route("/setup-admin")
+    def setup_admin():
+
+        setup_key = request.args.get("key")
+
+        if setup_key != os.environ.get("ADMIN_SETUP_KEY"):
+            return "Unauthorized", 401
+
+        from app.models import User
+
+        user = User.query.filter_by(username="admin").first()
+
+        if user:
+
+            user.set_password("Admin@12345")
+            user.role = "admin"
+            user.full_name = "Administrator"
+            user.is_active = True
+
+        else:
+
+            user = User(
+                username="admin",
+                role="admin",
+                full_name="Administrator",
+                is_active=True
+            )
+
+            user.set_password("Admin@12345")
+            db.session.add(user)
+
+        db.session.commit()
+
+        return "Admin setup completed successfully."
 
     # ============================================================
     # RETURN APPLICATION
