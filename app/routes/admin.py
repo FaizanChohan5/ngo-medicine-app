@@ -277,6 +277,113 @@ def add_field_person():
 # ============================================================
 # ALL SHOPS
 # ============================================================
+# ADD STORE PERSON
+# ============================================================
+
+@admin.route(
+    "/store-persons/add",
+    methods=["GET", "POST"]
+)
+@login_required
+def add_store_person():
+
+    if not admin_required():
+        return "Access Denied", 403
+
+    if request.method == "POST":
+
+        full_name = request.form.get(
+            "full_name",
+            ""
+        ).strip()
+
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
+
+        password = request.form.get(
+            "password",
+            ""
+        ).strip()
+
+        if not full_name:
+            flash("Full name is required.")
+            return redirect(
+                url_for("admin.add_store_person")
+            )
+
+        if not username:
+            flash("Username is required.")
+            return redirect(
+                url_for("admin.add_store_person")
+            )
+
+        if not password:
+            flash("Password is required.")
+            return redirect(
+                url_for("admin.add_store_person")
+            )
+
+        existing_user = User.query.filter_by(
+            username=username
+        ).first()
+
+        if existing_user:
+            flash(
+                "Username already exists. "
+                "Please choose another username."
+            )
+
+            return redirect(
+                url_for("admin.add_store_person")
+            )
+
+        try:
+
+            user = User(
+                username=username,
+                role="store",
+                full_name=full_name,
+                is_active=True
+            )
+
+            user.set_password(password)
+
+            db.session.add(user)
+            db.session.commit()
+
+            flash(
+                f"Store Person '{full_name}' "
+                "created successfully."
+            )
+
+            return redirect(
+                url_for("admin.dashboard")
+            )
+
+        except Exception as e:
+
+            db.session.rollback()
+
+            print(
+                "STORE PERSON CREATION ERROR:",
+                e
+            )
+
+            flash(
+                "Error creating Store Person. "
+                "Please check the server terminal."
+            )
+
+            return redirect(
+                url_for("admin.add_store_person")
+            )
+
+    return render_template(
+        "admin/add_store_person.html"
+    )
+# ============================================================
 
 @admin.route("/shops")
 @login_required
