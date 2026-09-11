@@ -1,6 +1,6 @@
 {
-    "name": "NGO Medicine Management System",
-    "short_name": "NGO Medicine",
+    "name": "V-Tag Medicine Management System",
+    "short_name": "V-Tag Medicine",
     "description": "Medicine inventory, field stock, shops, sales and payment management system.",
     "start_url": "/",
     "display": "standalone",

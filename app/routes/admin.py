@@ -688,7 +688,7 @@ def export_reports():
     )
 
     summary["A1"] = (
-        "NGO MEDICINE MANAGEMENT SYSTEM"
+        "V-Tag Medicine Management System"
     )
 
     summary["A1"].font = title_font
