@@ -1,0 +1,86 @@
+﻿{% extends "base.html" %}
+
+{% block title %}
+Field Person Stock
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Field Person Stock</h1>
+        <p>
+            View medicine stock currently assigned
+            to each field person.
+        </p>
+    </div>
+</div>
+
+<div class="table-container">
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Field Person</th>
+                <th>Medicine</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% if field_stocks %}
+
+                {% for stock in field_stocks %}
+
+                <tr>
+
+                    <td>
+                        {{ stock.field_person.user.full_name }}
+                    </td>
+
+                    <td>
+                        {{ stock.medicine.name }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ stock.quantity }}
+                        </strong>
+                        {{ stock.medicine.unit }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td colspan="3" style="text-align: center;">
+                        No stock is currently assigned
+                        to any field person.
+                    </td>
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div style="margin-top: 20px;">
+
+    <a
+        href="{{ url_for('inventory.dashboard') }}"
+        class="button secondary"
+    >
+        ← Back to Main Stock
+    </a>
+
+</div>
+
+{% endblock %}

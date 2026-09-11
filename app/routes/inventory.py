@@ -51,6 +51,26 @@ def dashboard():
         stocks=stocks
     )
 
+# ============================================================
+# FIELD PERSON STOCK
+# ============================================================
+
+@inventory.route("/field-stock")
+@login_required
+def field_stock():
+
+    if current_user.role not in ["admin", "store"]:
+        return "Access Denied", 403
+
+    field_stocks = FieldStock.query.order_by(
+        FieldStock.field_person_id.asc(),
+        FieldStock.medicine_id.asc()
+    ).all()
+
+    return render_template(
+        "inventory/field_stock.html",
+        field_stocks=field_stocks
+    )
 
 # ============================================================
 # RECEIVE STOCK

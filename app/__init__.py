@@ -148,7 +148,13 @@ def create_app():
 
         db.session.commit()
 
-        return "Admin setup completed successfully."
+        return (
+    f"Admin setup completed successfully. "
+    f"Username: {user.username} | "
+    f"Role: {user.role} | "
+    f"Active: {user.is_active} | "
+    f"Password check: {user.check_password('Admin@12345')}"
+)
 
     # ============================================================
     # RETURN APPLICATION
